@@ -6,11 +6,11 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/bash -c "echo -e 'ruok' | nc 127.0.0.1 2181 | grep -q imok"
-      interval: 10s
-      timeout: 5s
-      retries: 30
-      start_period: 40s
+      test: /bin/bash -c "echo -e 'ruok' | timeout 5 socat - TCP:localhost:2181 | grep -q imok"
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 30s
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
     ports:
@@ -31,10 +31,9 @@ services:
       - clearbalance-net
     healthcheck:
       test: /bin/bash -c "kafka-topics --bootstrap-server localhost:9092 --list"
-      interval: 15s
-      timeout: 10s
-      retries: 15
-      start_period: 60s
+      interval: 20s
+      timeout: 15s
+      retries: 10
     volumes:
       - kafka-data:/var/lib/kafka/data
     ports:
