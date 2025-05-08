@@ -6,10 +6,12 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: echo ruok | nc localhost 2181 | grep imok
+      test: /bin/bash -c "echo ruok | nc 127.0.0.1 2181 | grep imok"
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
 
   kafka:
     image: confluentinc/cp-kafka:7.3.0
@@ -27,10 +29,16 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: nc -z localhost 9092
-      interval: 5s
+      test: /bin/sh -c "kafka-broker-api-verification --bootstrap-server localhost:9092"
+      interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
+volumes:
+  zookeeper-data:
+  kafka-data:
 
 networks:
   clearbalance-net:
