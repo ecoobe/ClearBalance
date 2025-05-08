@@ -9,7 +9,8 @@ services:
   kafka:
     image: confluentinc/cp-kafka:7.3.0
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -21,3 +22,5 @@ services:
 
 networks:
   clearbalance-net:
+    name: clearbalance-net
+    driver: bridge

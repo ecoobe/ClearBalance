@@ -11,3 +11,5 @@ services:
 
 networks:
   clearbalance-net:
+    name: clearbalance-net
+    driver: bridge
