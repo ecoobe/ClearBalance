@@ -5,6 +5,11 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
     networks:
       - clearbalance-net
+    healthcheck:
+      test: echo ruok | nc localhost 2181 | grep imok
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   kafka:
     image: confluentinc/cp-kafka:7.3.0
@@ -15,12 +20,19 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_MIN_INSYNC_REPLICAS: 1
     ports:
       - "9092:9092"
     networks:
       - clearbalance-net
+    healthcheck:
+      test: nc -z localhost 9092
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 networks:
   clearbalance-net:
+    external: true
     name: clearbalance-net
-    driver: bridge
