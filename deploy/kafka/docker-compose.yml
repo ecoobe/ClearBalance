@@ -41,7 +41,7 @@ services:
 
 networks:
   clearbalance-net:
-    driver: bridge
+    external: true
 
 volumes:
   zookeeper-data:
