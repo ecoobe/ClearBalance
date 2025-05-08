@@ -3,14 +3,15 @@ services:
     image: confluentinc/cp-zookeeper:7.3.0
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/sh -c "echo ruok | socat - TCP:localhost:2181 | grep imok"
+      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
       interval: 10s
-      timeout: 15s
-      retries: 25
-      start_period: 60s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
     ports:
@@ -27,13 +28,15 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_HEAP_OPTS: "-Xmx512M -Xms256M"
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/sh -c "kafka-topics --bootstrap-server localhost:9092 --list"
-      interval: 25s
-      timeout: 20s
-      retries: 15
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1"]
+      interval: 30s
+      timeout: 25s
+      retries: 20
+      start_period: 60s
     volumes:
       - kafka-data:/var/lib/kafka/data
     ports:
