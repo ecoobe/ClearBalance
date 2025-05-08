@@ -6,11 +6,11 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/bash -c "echo -e 'create /healthcheck test' | /usr/bin/zkCli.sh -server 127.0.0.1:2181 | grep -q 'Created /healthcheck'"
+      test: /bin/sh -c "echo ruok | socat - TCP:localhost:2181 | grep imok"
       interval: 10s
-      timeout: 20s
-      retries: 10
-      start_period: 30s
+      timeout: 15s
+      retries: 25
+      start_period: 60s
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
     ports:
@@ -24,16 +24,16 @@ services:
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/bash -c "kafka-topics --bootstrap-server localhost:9092 --list"
-      interval: 15s
-      timeout: 10s
-      retries: 5
+      test: /bin/sh -c "kafka-topics --bootstrap-server localhost:9092 --list"
+      interval: 25s
+      timeout: 20s
+      retries: 15
     volumes:
       - kafka-data:/var/lib/kafka/data
     ports:
