@@ -6,10 +6,11 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/sh -c "echo stat | timeout 5 telnet 127.0.0.1 2181 | grep Mode"
-      interval: 15s
-      timeout: 10s
-      retries: 20
+      test: /bin/bash -c "echo -e 'ruok' | nc 127.0.0.1 2181 | grep -q imok"
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 40s
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
     ports:
@@ -22,21 +23,22 @@ services:
         condition: service_healthy
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://:9093
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/sh -c "kafka-topics --bootstrap-server localhost:9093 --list"
-      interval: 25s
-      timeout: 15s
-      retries: 10
+      test: /bin/bash -c "kafka-topics --bootstrap-server localhost:9092 --list"
+      interval: 15s
+      timeout: 10s
+      retries: 15
+      start_period: 60s
     volumes:
       - kafka-data:/var/lib/kafka/data
     ports:
-      - "9093:9093"
+      - "9092:9092"
 
 networks:
   clearbalance-net:
