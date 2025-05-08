@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:7
+    command: redis-server --requirepass your-redis-password
+    volumes:
+      - ./data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - clearbalance-net
+
+networks:
+  clearbalance-net:
