@@ -7,11 +7,11 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      test: ["CMD", "zkOk", "2181"]
       interval: 10s
       timeout: 5s
       retries: 30
-      start_period: 20s
+      start_period: 60s
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
     ports:
@@ -32,11 +32,11 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1"]
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
       interval: 30s
       timeout: 25s
       retries: 20
-      start_period: 60s
+      start_period: 90s
     volumes:
       - kafka-data:/var/lib/kafka/data
     ports:
