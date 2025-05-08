@@ -6,10 +6,10 @@ services:
     networks:
       - clearbalance-net
     healthcheck:
-      test: /bin/sh -c "echo ruok | nc -w 1 127.0.0.1 2181 | grep imok"
-      interval: 15s
-      timeout: 10s
-      retries: 20
+      test: /bin/bash -c "echo stat | nc 127.0.0.1 2181 | grep -q Mode"
+      interval: 10s
+      timeout: 5s
+      retries: 15
     volumes:
       - zookeeper-data:/var/lib/zookeeper/data
 
@@ -30,9 +30,9 @@ services:
       - clearbalance-net
     healthcheck:
       test: /bin/sh -c "kafka-topics --bootstrap-server localhost:9092 --list"
-      interval: 20s
-      timeout: 15s
-      retries: 10
+      interval: 15s
+      timeout: 10s
+      retries: 5
     volumes:
       - kafka-data:/var/lib/kafka/data
 
