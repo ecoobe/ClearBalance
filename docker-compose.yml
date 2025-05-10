@@ -4,61 +4,7 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - user_service
-      - debt_service
-      - payment_service
-      - notification_service
-    networks:
-      - clearbalance-net
-
-  user_service:
-    build: ./user_service
-    environment:
-      DATABASE_URL: postgresql://clearbalance:password@postgres/clearbalance
-    depends_on:
       - postgres
-    networks:
-      - clearbalance-net
-
-  debt_service:
-    build: ./debt_service
-    environment:
-      DATABASE_URL: postgresql://clearbalance:password@postgres/clearbalance
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      - postgres
-      - kafka
-    networks:
-      - clearbalance-net
-
-  payment_service:
-    build: ./payment_service
-    environment:
-      DATABASE_URL: postgresql://clearbalance:password@postgres/clearbalance
-    depends_on:
-      - postgres
-    networks:
-      - clearbalance-net
-
-  notification_service:
-    build: ./notification_service
-    environment:
-      REDIS_URL: redis://redis:6379/0
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      - redis
-      - kafka
-    networks:
-      - clearbalance-net
-
-  celery_worker:
-    build: ./celery_worker
-    environment:
-      REDIS_URL: redis://redis:6379/0
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    depends_on:
-      - redis
-      - kafka
     networks:
       - clearbalance-net
 
@@ -73,56 +19,8 @@ services:
     networks:
       - clearbalance-net
 
-  redis:
-    image: redis:7
-    command: redis-server --requirepass password
-    volumes:
-      - redis_data:/data
-    networks:
-      - clearbalance-net
-
-  kafka:
-    image: confluentinc/cp-kafka:7.3.0
-    depends_on:
-      - zookeeper
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - clearbalance-net
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.0
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-    networks:
-      - clearbalance-net
-
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
-    networks:
-      - clearbalance-net
-
-  grafana:
-    image: grafana/grafana
-    volumes:
-      - grafana_data:/var/lib/grafana
-    depends_on:
-      - prometheus
-    ports:
-      - "3000:3000"
-    networks:
-      - clearbalance-net
-
 volumes:
   postgres_data:
-  redis_data:
-  grafana_data:
 
 networks:
   clearbalance-net:
