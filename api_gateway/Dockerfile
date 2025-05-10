@@ -4,6 +4,12 @@ FROM python:3.9-slim
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
+# Копируем файл зависимостей в контейнер
+COPY api_gateway/requirements.txt .
+
+# Устанавливаем зависимости из файла requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
 # Копируем весь проект (включая код приложения) в контейнер
 COPY . .
 
