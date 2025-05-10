@@ -11,8 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Копируем конфиг Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Запускаем Nginx и приложение
-CMD service nginx start && python your_app.py
+EXPOSE 80 443
+
+CMD ["sh", "-c", "nginx -g 'daemon off;' & python app/main.py"]

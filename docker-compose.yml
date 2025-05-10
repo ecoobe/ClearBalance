@@ -11,6 +11,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - postgres
+    command: /bin/sh -c "nginx && python app/main.py"
 
   postgres:
     image: postgres:14
@@ -22,6 +23,17 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - clearbalance-net
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - clearbalance-net
+    depends_on:
+      - api_gateway
 
 volumes:
   postgres_data:
