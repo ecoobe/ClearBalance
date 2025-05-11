@@ -10,6 +10,7 @@ services:
       POSTGRES_PASSWORD: mypassword
     networks:
       - app-network
+      - default  # Добавить
 
   web:
     build: ./api_gateway
@@ -19,6 +20,7 @@ services:
       - db
     networks:
       - app-network
+      - default  # Добавить
 
   nginx:
     image: nginx:alpine
@@ -35,6 +37,7 @@ services:
       - grafana
     networks:
       - app-network
+      - default  # Добавить
 
   certbot:
     image: certbot/certbot
@@ -44,6 +47,9 @@ services:
     depends_on:
       - nginx
     command: certonly --webroot --webroot-path=/var/www/certbot --email easyarm@yandex.ru --agree-tos --no-eff-email -d coobe.ru -d www.coobe.ru -d prometheus.coobe.ru -d grafana.coobe.ru
+    networks:
+      - app-network
+      - default  # Добавить
 
   prometheus:
     image: prom/prometheus:latest
@@ -51,6 +57,7 @@ services:
       - ./monitoring/prometheus:/etc/prometheus
     networks:
       - app-network
+      - default  # Добавить
     restart: unless-stopped
 
   grafana:
@@ -61,6 +68,7 @@ services:
       GF_SERVER_ROOT_URL: https://grafana.coobe.ru
     networks:
       - app-network
+      - default  # Добавить
     restart: unless-stopped
 
 volumes:
@@ -68,4 +76,6 @@ volumes:
 
 networks:
   app-network:
+  default:  # Явное объявление дефолтной сети
+    external: true
     driver: bridge
