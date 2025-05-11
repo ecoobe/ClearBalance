@@ -41,7 +41,25 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - nginx
-    command: certonly --webroot --webroot-path=/var/www/certbot --email easyarm@yandex.ru --agree-tos --no-eff-email -d coobe.ru -d www.coobe.ru --force-renewal # Корректный email
+    command: certonly --webroot --webroot-path=/var/www/certbot --email easyarm@yandex.ru --agree-tos --no-eff-email -d coobe.ru -d www.coobe.ru --force-renewal
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+    environment:
+      GF_SERVER_ROOT_URL: https://grafana.coobe.ru
+    networks:
+      - app-network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
