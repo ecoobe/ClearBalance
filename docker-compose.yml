@@ -41,7 +41,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - nginx
-    command: certonly --webroot --webroot-path=/var/www/certbot --email admin@coobe.ru --agree-tos --no-eff-email -d coobe.ru -d www.coobe.ru --force-renewal
+    command: certonly --webroot --webroot-path=/var/www/certbot --email easyarm@yandex.ru --agree-tos --no-eff-email -d coobe.ru -d www.coobe.ru --force-renewal
 
 volumes:
   postgres_data:
