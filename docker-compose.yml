@@ -43,7 +43,7 @@ services:
       - ./certbot/conf:/etc/letsencrypt
     depends_on:
       - nginx
-    command: certonly --webroot --webroot-path=/var/www/certbot --email easyarm@yandex.ru --agree-tos --no-eff-email -d coobe.ru -d www.coobe.ru -d prometheus.coobe.ru -d grafana.coobe.ru --force-renewal
+    command: certonly --webroot --webroot-path=/var/www/certbot --email easyarm@yandex.ru --agree-tos --no-eff-email -d coobe.ru -d www.coobe.ru -d prometheus.coobe.ru -d grafana.coobe.ru
 
   prometheus:
     image: prom/prometheus:latest
