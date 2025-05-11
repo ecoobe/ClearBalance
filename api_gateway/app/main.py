@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from flask import Flask
+app = Flask(__name__)
 
-app = FastAPI()
+@app.route("/")
+def hello():
+    return "Hello, HTTPS World!"
 
-@app.get("/")
-def read_root():
-    return {"message": "API Gateway Working!"}
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000)
