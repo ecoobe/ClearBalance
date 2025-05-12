@@ -66,8 +66,6 @@ services:
       - ./monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
     environment:
       GF_SERVER_ROOT_URL: https://grafana.coobe.ru
-      GF_SECURITY_ADMIN_USER: "admin"
-      GF_SECURITY_ADMIN_PASSWORD: "sergey"
     networks:
       - app-network
     restart: unless-stopped
