@@ -51,6 +51,7 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./monitoring/prometheus:/etc/prometheus
+      - ./nginx/secrets:/etc/nginx/secrets
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
