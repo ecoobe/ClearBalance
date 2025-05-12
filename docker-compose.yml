@@ -52,8 +52,10 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./monitoring/prometheus:/etc/prometheus
+      - ./monitoring/prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
     networks:
       - app-network
     restart: unless-stopped
