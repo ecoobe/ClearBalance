@@ -29,6 +29,7 @@ services:
       - ./api_gateway/nginx.conf:/etc/nginx/nginx.conf
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
+      - ./nginx/secrets:/etc/nginx/secrets
     depends_on:
       - web
       - prometheus
@@ -51,7 +52,6 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./monitoring/prometheus:/etc/prometheus
-      - ./nginx/secrets:/etc/nginx/secrets
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
