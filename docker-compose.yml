@@ -51,12 +51,15 @@ services:
     image: prom/prometheus:latest
     volumes:
       - ./monitoring/prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - app-network
     restart: unless-stopped
 
   grafana:
     image: grafana/grafana:latest
+    user: "472:472"
     volumes:
       - ./monitoring/grafana:/var/lib/grafana
     environment:
