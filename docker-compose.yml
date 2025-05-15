@@ -34,6 +34,7 @@ services:
       - web
       - prometheus
       - grafana
+      - node-exporter
     networks:
       - app-network
 
