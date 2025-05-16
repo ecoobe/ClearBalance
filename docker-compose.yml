@@ -38,6 +38,15 @@ services:
     networks:
       - app-network
 
+  user_service:
+    build: ./user_service
+    environment:
+      DATABASE_URL: postgresql://myuser:mypassword@db:5432/mydb
+    networks:
+      - app-network
+    depends_on:
+      - db
+
   certbot:
     image: certbot/certbot
     volumes:
