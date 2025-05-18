@@ -6,7 +6,7 @@ target_metadata = Base.metadata
 def run_migrations_online():
     connectable = context.config.attributes.get("connection", None)
     if connectable is None:
-        from app.database import engine
+        from database import engine
         connectable = engine
 
     with connectable.connect() as connection:
