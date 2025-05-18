@@ -1,5 +1,5 @@
 from alembic import context
-from app.models import Base  # Импорт вашей модели
+from models import Base  # Импорт вашей модели
 
 target_metadata = Base.metadata
 
