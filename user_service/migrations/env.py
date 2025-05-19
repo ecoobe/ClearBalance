@@ -1,5 +1,6 @@
 from alembic import context
-from app.models import Base  # Импорт из папки app
+from models import Base  # Убрано 'app.'
+from database import engine  # Убрано 'app.'
 
 target_metadata = Base.metadata
 
