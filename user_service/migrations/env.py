@@ -1,11 +1,10 @@
 from alembic import context
-from models import Base  # Убрано 'app.'
-from database import engine  # Убрано 'app.'
+from models import Base
 
 target_metadata = Base.metadata
 
 def run_migrations_online():
-    from app.database import engine  # Импорт engine
+    from database import engine  # Импорт engine
     with engine.connect() as connection:
         context.configure(
             connection=connection,
