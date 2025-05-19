@@ -5,3 +5,4 @@ alembic
 python-jose[cryptography]
 passlib
 psycopg2-binary
+email-validator
