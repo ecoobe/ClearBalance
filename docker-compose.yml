@@ -45,7 +45,8 @@ services:
       - ./nginx/secrets:/etc/nginx/secrets
     depends_on:
       - web
-      - frontend  # Добавлено
+      - frontend
+      - user_service
       - prometheus
       - grafana
       - node-exporter
