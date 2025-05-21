@@ -31,7 +31,7 @@ services:
     networks:
       - app-network
     depends_on:
-      - api_gateway
+      - web
 
   nginx:
     image: nginx:alpine
