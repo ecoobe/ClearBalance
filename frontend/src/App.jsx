@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css'; // Добавим стили
+import './styles.css';
 
 function App() {
   const handleRegister = async () => {
@@ -22,17 +22,19 @@ function App() {
   return (
     <div className="app">
       <nav className="navbar">
-        <button 
-          className="register-btn"
-          onClick={handleRegister}
-        >
+        <button className="register-btn" onClick={handleRegister}>
           Регистрация
         </button>
       </nav>
       
       <div className="hero-section">
-        <h1>Добро пожаловать в ClearBalance</h1>
-        <p>Управляйте финансами легко и удобно</p>
+        <h1 className="hero-title">
+          Управляйте финансами профессионально
+        </h1>
+        <p className="hero-subtitle">
+          Современная платформа для контроля бюджета, инвестиций 
+          и финансовой аналитики в реальном времени
+        </p>
       </div>
     </div>
   );

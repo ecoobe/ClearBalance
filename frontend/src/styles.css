@@ -1,0 +1,81 @@
+:root {
+	--bg-dark: #1A1C23;
+	--primary-blue: #2B7FFF;
+	--text-light: #F5F6F8;
+	--hover-blue: #1A5FD3;
+	--border-dark: #2E3039;
+  }
+  
+  body {
+	margin: 0;
+	font-family: 'Roboto', 'Arial', sans-serif;
+	background: var(--bg-dark);
+	color: var(--text-light);
+  }
+  
+  .navbar {
+	display: flex;
+	justify-content: flex-end;
+	padding: 18px 40px;
+	background: var(--bg-dark);
+	border-bottom: 1px solid var(--border-dark);
+  }
+  
+  .register-btn {
+	background: var(--primary-blue);
+	color: white;
+	border: none;
+	padding: 12px 28px;
+	border-radius: 6px;
+	cursor: pointer;
+	font-weight: 500;
+	font-size: 15px;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	letter-spacing: 0.5px;
+  }
+  
+  .register-btn:hover {
+	background: var(--hover-blue);
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(43, 127, 255, 0.2);
+  }
+  
+  .hero-section {
+	text-align: center;
+	padding: 120px 20px;
+	max-width: 800px;
+	margin: 0 auto;
+  }
+  
+  .hero-title {
+	font-size: 42px;
+	font-weight: 700;
+	margin-bottom: 24px;
+	line-height: 1.2;
+	background: linear-gradient(135deg, #2B7FFF 0%, #6BB1FF 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+  }
+  
+  .hero-subtitle {
+	font-size: 20px;
+	color: #A0A4AB;
+	line-height: 1.6;
+	max-width: 600px;
+	margin: 0 auto;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+	.navbar {
+	  padding: 14px 20px;
+	}
+	
+	.hero-title {
+	  font-size: 32px;
+	}
+	
+	.hero-subtitle {
+	  font-size: 16px;
+	}
+  }
