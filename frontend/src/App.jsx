@@ -27,7 +27,7 @@ export default function App() {
     <div className="app">
       <nav className="navbar">
         <div className="logo">
-          <span className="logo-gradient">ClearBalance</span>
+          <span className="logo-gradient">coobe</span>
         </div>
         <button className="cta-button secondary" onClick={handleLogin}>
           Войти
