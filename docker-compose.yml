@@ -26,12 +26,12 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    volumes:
-      - ./frontend/build:/usr/share/nginx/html
     networks:
       - app-network
     depends_on:
       - web
+    expose:
+      - "80"  # Добавлено для доступа внутри сети
 
   nginx:
     image: nginx:alpine
@@ -45,6 +45,7 @@ services:
       - ./nginx/secrets:/etc/nginx/secrets
     depends_on:
       - web
+      - frontend  # Добавлено
       - prometheus
       - grafana
       - node-exporter
