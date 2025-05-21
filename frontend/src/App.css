@@ -1,0 +1,40 @@
+.app {
+	font-family: 'Arial', sans-serif;
+  }
+  
+  .navbar {
+	display: flex;
+	justify-content: flex-end;
+	padding: 1rem;
+	background: #2c3e50;
+  }
+  
+  .register-btn {
+	background: #3498db;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background 0.3s;
+  }
+  
+  .register-btn:hover {
+	background: #2980b9;
+  }
+  
+  .hero-section {
+	text-align: center;
+	padding: 4rem 2rem;
+	background: #ecf0f1;
+  }
+  
+  .hero-section h1 {
+	color: #2c3e50;
+	font-size: 2.5rem;
+  }
+  
+  .hero-section p {
+	color: #7f8c8d;
+	font-size: 1.2rem;
+  }
