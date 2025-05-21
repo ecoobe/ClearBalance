@@ -20,7 +20,6 @@ export default function App() {
   };
 
   const handleLogin = () => {
-    // Заглушка для обработки входа
     alert("Функционал входа в разработке");
   };
 
@@ -31,14 +30,7 @@ export default function App() {
           <span className="logo-gradient">ClearBalance</span>
         </div>
         <button className="cta-button secondary" onClick={handleLogin}>
-          <span>Войти</span>
-          <svg className="btn-icon" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M5 12H19M19 12L15 8M19 12L15 16"
-              stroke="currentColor"
-              strokeWidth="2" // Исправлено stroke-width → strokeWidth
-            />
-          </svg>
+          Войти
         </button>
       </nav>
 

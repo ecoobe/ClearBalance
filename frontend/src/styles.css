@@ -68,44 +68,35 @@
   }
   
   /* Кнопки */
-  .register-btn {
-	background: var(--primary);
+  .cta-button {
+	background: var(--gradient);
 	color: white;
 	border: none;
-	padding: 0.75rem 1.5rem;
+	padding: 0.9rem 2rem;
+	font-size: 1rem;
 	border-radius: 8px;
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	transition: all 0.3s ease;
 	cursor: pointer;
+	transition: all 0.2s ease;
+	display: inline-block;
   }
   
-  .register-btn:hover {
-	background: var(--primary-hover);
+  .cta-button:hover {
 	transform: translateY(-2px);
 	box-shadow: var(--shadow);
   }
   
-  .btn-icon {
-	width: 20px;
-	height: 20px;
+  .cta-button.secondary {
+	background: var(--bg-dark);
+	border: 2px solid var(--primary);
+	color: var(--primary);
+	padding: 0.6rem 1.5rem;
+	font-size: 0.95rem;
   }
   
-  .cta-button {
-	background: var(--gradient);
+  .cta-button.secondary:hover {
+	background: var(--primary);
 	color: white;
-	padding: 1rem 2.5rem;
-	font-size: 1.1rem;
-	border: none;
-	border-radius: 12px;
-	margin: 2rem 0;
-	cursor: pointer;
-	transition: transform 0.3s ease;
-  }
-  
-  .cta-button:hover {
-	transform: scale(1.05);
+	transform: none;
   }
   
   /* Адаптивность */
@@ -120,5 +111,15 @@
 	
 	.navbar {
 	  padding: 1rem 5%;
+	}
+  
+	.cta-button {
+	  padding: 0.8rem 1.8rem;
+	  font-size: 0.95rem;
+	}
+  
+	.cta-button.secondary {
+	  padding: 0.5rem 1.2rem;
+	  font-size: 0.9rem;
 	}
   }
