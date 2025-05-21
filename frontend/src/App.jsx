@@ -19,6 +19,11 @@ export default function App() {
     }
   };
 
+  const handleLogin = () => {
+    // Заглушка для обработки входа
+    alert("Функционал входа в разработке");
+  };
+
   return (
     <div className="app">
       <nav className="navbar">
@@ -31,7 +36,7 @@ export default function App() {
             <path
               d="M5 12H19M19 12L15 8M19 12L15 16"
               stroke="currentColor"
-              stroke-width="2"
+              strokeWidth="2" // Исправлено stroke-width → strokeWidth
             />
           </svg>
         </button>
