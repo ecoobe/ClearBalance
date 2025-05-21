@@ -9,7 +9,7 @@ app.include_router(auth_router, prefix="/auth")
 def health_check():
     return {"status": "ok"}
 
-@app.get("/users")  # Добавлен префикс /api
+@app.get("/api/users")  # Добавлен префикс /api
 def get_users():
     return {"users": ["user1", "user2"]}
 
