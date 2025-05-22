@@ -37,12 +37,12 @@ export default function App() {
       <main className="hero">
         <div className="hero-content">
           <h1>
-            <span className="gradient-text">Умное управление</span>
+            <span className="gradient-text">Система управления</span>
             <br />
-            вашими финансами
+            своими финансами
           </h1>
           <p className="subtitle">
-            Автоматизация учёта расходов, AI-аналитика
+            Гибкая система учёта задолженностей, депозитов
             <br />и прогнозирование бюджета
           </p>
 
