@@ -32,6 +32,10 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.logo-link {
+  text-decoration: none;
+}
+
 .logo-gradient {
   background: var(--gradient);
   -webkit-background-clip: text;
@@ -102,6 +106,13 @@ body {
   transform: none;
 }
 
+.cta-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
 /* Страницы аутентификации */
 .auth-page {
   max-width: 400px;
@@ -132,6 +143,7 @@ body {
   color: var(--text);
   font-size: 1rem;
   width: 100%;
+  transition: border-color 0.2s;
 }
 
 .auth-page input:focus {
@@ -139,16 +151,33 @@ body {
   outline-offset: -2px;
 }
 
-.auth-page button[type="submit"] {
-  margin-top: 1rem;
-  width: 100%;
+.auth-page input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-.auth-page .button-group {
+.button-group {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   margin-top: 1.5rem;
+}
+
+/* Спиннер */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Адаптивность */

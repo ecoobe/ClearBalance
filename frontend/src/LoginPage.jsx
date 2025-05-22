@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -20,13 +23,18 @@ export default function LoginPage() {
         }),
       });
 
-      if (!response.ok) throw new Error("Ошибка входа");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Ошибка входа");
+      }
 
       const { access_token } = await response.json();
       localStorage.setItem("token", access_token);
       navigate("/");
     } catch (error) {
       alert(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -40,6 +48,7 @@ export default function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          disabled={isLoading}
         />
         <input
           type="password"
@@ -47,17 +56,21 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          disabled={isLoading}
         />
-        <button type="submit" className="cta-button">
-          Войти
-        </button>
-        <button
-          type="button"
-          className="cta-button secondary"
-          onClick={() => navigate("/register")}
-        >
-          Регистрация
-        </button>
+        <div className="button-group">
+          <button type="submit" className="cta-button" disabled={isLoading}>
+            {isLoading ? <div className="spinner"></div> : "Войти"}
+          </button>
+          <button
+            type="button"
+            className="cta-button secondary"
+            onClick={() => navigate("/register")}
+            disabled={isLoading}
+          >
+            Регистрация
+          </button>
+        </div>
       </form>
     </div>
   );
