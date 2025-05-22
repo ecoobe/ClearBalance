@@ -4,12 +4,10 @@ from alembic import context
 import os
 import sys
 
-# Рассчитываем абсолютный путь к корню проекта
-current_dir = os.path.dirname(os.path.abspath(__file__))
-root_dir = os.path.abspath(os.path.join(current_dir, "../../.."))
-sys.path.insert(0, root_dir)
+# Добавляем путь к проекту в PYTHONPATH
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
-# Теперь можно импортировать модели
+# Импорт моделей
 from user_service.app.models import Base
 
 config = context.config
@@ -18,7 +16,6 @@ target_metadata = Base.metadata
 
 
 def run_migrations_online():
-    """Run migrations in 'online' mode."""
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
@@ -35,6 +32,6 @@ def run_migrations_online():
 
 
 if context.is_offline_mode():
-    print("Offline migrations are not supported.")
+    print("Offline mode not supported")
 else:
     run_migrations_online()
