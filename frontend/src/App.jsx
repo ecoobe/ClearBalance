@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./styles.css";
 
 // Импорт новых компонентов
@@ -39,7 +40,9 @@ export default function App() {
     <div className="app">
       <nav className="navbar">
         <div className="logo">
-          <span className="logo-gradient">coobe</span>
+          <Link to="/" className="logo-link">
+            <span className="logo-gradient">coobe</span>
+          </Link>
         </div>
         {isLoggedIn ? (
           <button className="cta-button secondary" onClick={handleLogout}>
