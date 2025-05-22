@@ -1,12 +1,27 @@
 /* Базовые настройки */
 :root {
-	--bg-dark: #0d1117;
+	--gradient: linear-gradient(135deg, #1f6feb 0%, #8a63d2 100%);
+	--shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  
+  /* Тёмная тема (по умолчанию) */
+  .dark-theme {
+	--bg: #0d1117;
+	--text: #e6edf3;
 	--primary: #1f6feb;
 	--primary-hover: #2c7cff;
-	--text: #e6edf3;
-	--gradient: linear-gradient(135deg, #1f6feb 0%, #8a63d2 100%);
 	--border: #30363d;
-	--shadow: 0 8px 24px rgba(0,0,0,0.3);
+	--nav-bg: rgba(13, 17, 23, 0.95);
+  }
+  
+  /* Светлая тема */
+  .light-theme {
+	--bg: #f8f9fa;
+	--text: #212529;
+	--primary: #1864ab;
+	--primary-hover: #1c7ed6;
+	--border: #dee2e6;
+	--nav-bg: rgba(248, 249, 250, 0.95);
   }
   
   * {
@@ -14,10 +29,11 @@
 	padding: 0;
 	box-sizing: border-box;
 	font-family: 'Inter', -apple-system, sans-serif;
+	transition: background 0.3s ease, color 0.2s ease;
   }
   
   body {
-	background: var(--bg-dark);
+	background: var(--bg);
 	color: var(--text);
 	line-height: 1.5;
   }
@@ -28,7 +44,12 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 1.5rem 5%;
+	background: var(--nav-bg);
 	border-bottom: 1px solid var(--border);
+	backdrop-filter: blur(10px);
+	position: sticky;
+	top: 0;
+	z-index: 100;
   }
   
   .logo-gradient {
@@ -38,6 +59,32 @@
 	color: transparent;
 	font-weight: 700;
 	font-size: 1.5rem;
+  }
+  
+  .nav-controls {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+  }
+  
+  /* Переключатель темы */
+  .theme-toggle {
+	background: none;
+	border: none;
+	font-size: 1.4rem;
+	cursor: pointer;
+	padding: 0.5rem;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+  }
+  
+  .theme-toggle:hover {
+	background: rgba(0,0,0,0.05);
   }
   
   /* Основной контент */
@@ -62,9 +109,11 @@
   }
   
   .subtitle {
-	color: #848d97;
+	color: var(--text);
+	opacity: 0.8;
 	font-size: 1.25rem;
 	margin: 1.5rem 0;
+	line-height: 1.6;
   }
   
   /* Кнопки */
@@ -78,6 +127,8 @@
 	cursor: pointer;
 	transition: all 0.2s ease;
 	display: inline-block;
+	position: relative;
+	overflow: hidden;
   }
   
   .cta-button:hover {
@@ -86,17 +137,15 @@
   }
   
   .cta-button.secondary {
-	background: var(--bg-dark);
+	background: none;
 	border: 2px solid var(--primary);
 	color: var(--primary);
 	padding: 0.6rem 1.5rem;
-	font-size: 0.95rem;
   }
   
   .cta-button.secondary:hover {
 	background: var(--primary);
 	color: white;
-	transform: none;
   }
   
   /* Адаптивность */
@@ -121,5 +170,11 @@
 	.cta-button.secondary {
 	  padding: 0.5rem 1.2rem;
 	  font-size: 0.9rem;
+	}
+  
+	.theme-toggle {
+	  font-size: 1.2rem;
+	  width: 35px;
+	  height: 35px;
 	}
   }
