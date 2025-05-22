@@ -1,26 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import "./styles.css";
 
+// Импорт новых компонентов
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
+
+const HeroPage = () => (
+  <main className="hero">
+    <div className="hero-content">
+      <h1>
+        <span className="gradient-text">Система управления</span>
+        <br />
+        своими финансами
+      </h1>
+      <p className="subtitle">
+        Гибкая система учёта задолженностей, депозитов
+        <br />и прогнозирование бюджета
+      </p>
+    </div>
+  </main>
+);
+
 export default function App() {
+  const navigate = useNavigate();
+  const [isLoggedIn] = useState(!!localStorage.getItem("token"));
+
   const handleRegister = async () => {
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: "test@example.com",
-          password: "SecurePass123!",
-        }),
-      });
-      const data = await response.json();
-      alert(data.message || "Регистрация успешна!");
-    } catch (error) {
-      alert("Ошибка: " + error.message);
-    }
+    navigate("/register");
   };
 
-  const handleLogin = () => {
-    alert("Функционал входа в разработке");
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
@@ -29,30 +41,26 @@ export default function App() {
         <div className="logo">
           <span className="logo-gradient">coobe</span>
         </div>
-        <button className="cta-button secondary" onClick={handleLogin}>
-          Войти
-        </button>
+        {isLoggedIn ? (
+          <button className="cta-button secondary" onClick={handleLogout}>
+            Выйти
+          </button>
+        ) : (
+          <button
+            className="cta-button secondary"
+            onClick={() => navigate("/login")}
+          >
+            Войти
+          </button>
+        )}
       </nav>
 
-      <main className="hero">
-        <div className="hero-content">
-          <h1>
-            <span className="gradient-text">Система управления</span>
-            <br />
-            своими финансами
-          </h1>
-          <p className="subtitle">
-            Гибкая система учёта задолженностей, депозитов
-            <br />и прогнозирование бюджета
-          </p>
-
-          <div className="cta-container">
-            <button className="cta-button" onClick={handleRegister}>
-              Попробовать бесплатно
-            </button>
-          </div>
-        </div>
-      </main>
+      <Routes>
+        <Route path="/" element={<HeroPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
     </div>
   );
 }
