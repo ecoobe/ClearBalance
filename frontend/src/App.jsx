@@ -1,24 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./styles.css";
 
 export default function App() {
-  const [isDarkTheme, setIsDarkTheme] = useState(true);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) setIsDarkTheme(savedTheme === "dark");
-    document.documentElement.className = savedTheme || "dark-theme";
-  }, []);
-
-  const handleToggleTheme = () => {
-    const newTheme = !isDarkTheme;
-    setIsDarkTheme(newTheme);
-    localStorage.setItem("theme", newTheme ? "dark-theme" : "light-theme");
-    document.documentElement.className = newTheme
-      ? "dark-theme"
-      : "light-theme";
-  };
-
   const handleRegister = async () => {
     try {
       const response = await fetch("/api/auth/register", {
@@ -46,18 +29,9 @@ export default function App() {
         <div className="logo">
           <span className="logo-gradient">coobe</span>
         </div>
-        <div className="nav-controls">
-          <button
-            className="theme-toggle"
-            onClick={handleToggleTheme}
-            aria-label="Переключить тему"
-          >
-            {isDarkTheme ? "☀️" : "🌑"}
-          </button>
-          <button className="cta-button secondary" onClick={handleLogin}>
-            Войти
-          </button>
-        </div>
+        <button className="cta-button secondary" onClick={handleLogin}>
+          Войти
+        </button>
       </nav>
 
       <main className="hero">
