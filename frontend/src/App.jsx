@@ -52,7 +52,7 @@ export default function App() {
             onClick={handleToggleTheme}
             aria-label="Переключить тему"
           >
-            {isDarkTheme ? "🌞" : "🌙"}
+            {isDarkTheme ? "☀️" : "🌑"}
           </button>
           <button className="cta-button secondary" onClick={handleLogin}>
             Войти
