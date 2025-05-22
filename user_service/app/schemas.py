@@ -1,11 +1,22 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 
-class UserCreate(BaseModel):
+
+class RegistrationStart(BaseModel):
     email: EmailStr
+
+
+class RegistrationConfirm(BaseModel):
+    email: EmailStr
+    code: str
     password: str
+    password_confirm: str
 
-class UserResponse(BaseModel):
-    email: EmailStr
-
-    class Config:
-        from_attributes = True
+    @field_validator("password")
+    def validate_password(cls, v):
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters")
+        if not any(c.isupper() for c in v):
+            raise ValueError("Password must contain uppercase letters")
+        if not any(c.isdigit() for c in v):
+            raise ValueError("Password must contain digits")
+        return v
