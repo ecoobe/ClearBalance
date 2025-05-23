@@ -10,9 +10,14 @@ RUN apt-get update && apt-get install -y \
 	libpq-dev \
 	&& rm -rf /var/lib/apt/lists/*
 
+# Копируем зависимости отдельным слоем для кэширования
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Копируем миграции и код
+COPY alembic.ini .
+COPY migrations/ ./migrations/
+COPY app/ ./app/
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Команда запуска с автоматическими миграциями
+CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
