@@ -141,6 +141,8 @@ services:
 
 volumes:
   postgres_data:
+    external: true
+    name: clearbalance-postgres-data
 
 networks:
   app-network:
