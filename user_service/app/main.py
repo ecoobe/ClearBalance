@@ -19,13 +19,8 @@ app.include_router(auth_router, prefix="/api/auth")
 
 
 @app.get("/health")
-def health_check():
+async def health_check():
     return {"status": "ok"}
-
-
-@app.get("/api/users")
-def get_users():
-    return {"users": ["user1", "user2"]}
 
 
 if __name__ == "__main__":
