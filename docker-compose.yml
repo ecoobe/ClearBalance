@@ -1,6 +1,11 @@
 services:
   db:
     image: postgres:13-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432:5432"
     volumes:
@@ -64,7 +69,8 @@ services:
     networks:
       - app-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   certbot:
     image: certbot/certbot
