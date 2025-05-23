@@ -142,9 +142,9 @@ services:
 volumes:
   postgres_data:
     external: true
-    name: clearbalance-postgres-data
+    name: coobe-postgres-data
 
 networks:
   app-network:
     driver: bridge
-    name: clearbalance-app-network 
+    name: coobe-app-network 
