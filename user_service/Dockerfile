@@ -2,7 +2,6 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-# Установка PYTHONPATH
 ENV PYTHONPATH="/app:${PYTHONPATH}"
 
 RUN apt-get update && apt-get install -y \
