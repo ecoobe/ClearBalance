@@ -13,7 +13,7 @@ const HeroPage = () => (
       <h1>
         <span className="gradient-text">Система управления</span>
         <br />
-        своими финансами
+        финансовыми потоками
       </h1>
       <p className="subtitle">
         Гибкая система учёта задолженностей, депозитов
