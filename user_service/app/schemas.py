@@ -20,3 +20,19 @@ class RegistrationConfirm(BaseModel):
         if not any(c.isdigit() for c in v):
             raise ValueError("Password must contain digits")
         return v
+
+
+# Добавленные классы
+class UserCreate(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class UserResponse(BaseModel):
+    email: EmailStr
+    is_verified: bool
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
