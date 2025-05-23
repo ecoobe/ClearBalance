@@ -1,6 +1,11 @@
 services:
   db:
     image: postgres:13-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
       - "5432:5432"
     volumes:
@@ -18,7 +23,13 @@ services:
     environment:
       DATABASE_URL: postgresql://myuser:mypassword@db:5432/mydb
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck: # Добавлен healthcheck
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     networks:
       - app-network
 
@@ -29,9 +40,15 @@ services:
     networks:
       - app-network
     depends_on:
-      - web
+      web:
+        condition: service_healthy
+    healthcheck: # Добавлен healthcheck
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
     expose:
-      - "80"  # Добавлено для доступа внутри сети
+      - "80"
 
   nginx:
     image: nginx:alpine
@@ -43,13 +60,13 @@ services:
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
       - ./nginx/secrets:/etc/nginx/secrets
-    depends_on:
-      - web
-      - frontend
-      - user_service
-      - prometheus
-      - grafana
-      - node-exporter
+    depends_on: # Обновлены зависимости
+      web:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+      user_service:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -64,7 +81,13 @@ services:
     networks:
       - app-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck: # Добавлен healthcheck
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   certbot:
     image: certbot/certbot
@@ -122,3 +145,4 @@ volumes:
 networks:
   app-network:
     driver: bridge
+    name: clearbalance-app-network 
