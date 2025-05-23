@@ -25,13 +25,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    healthcheck: # Добавлен healthcheck
+    healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     networks:
       - app-network
+    command: gunicorn --bind 0.0.0.0:8000 --workers 2 app.main:app
 
   frontend:
     build:
@@ -74,8 +76,6 @@ services:
     build: ./user_service
     ports:
       - "8001:8000"
-    volumes:
-      - ./user_service/migrations:/app/migrations
     environment:
       DATABASE_URL: postgresql://myuser:mypassword@db:5432/mydb
     networks:
@@ -83,11 +83,12 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    healthcheck: # Добавлен healthcheck
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 20s
+      timeout: 15s
+      retries: 5
+      start_period: 40s
 
   certbot:
     image: certbot/certbot
