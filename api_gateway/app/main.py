@@ -1,8 +1,6 @@
 from flask import Flask
-from fastapi import APIRouter
 
 app = Flask(__name__)
-router = APIRouter()
 
 
 @app.route("/gateway")
@@ -10,8 +8,8 @@ def gateway():
     return "API Gateway Works!"
 
 
-@router.get("/health")
-async def health_check():
+@app.route("/health")
+def health_check():
     return {"status": "ok"}
 
 
