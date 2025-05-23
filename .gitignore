@@ -1,0 +1,54 @@
+### Общие исключения ###
+*.log
+*.swp
+*.swo
+.DS_Store
+.idea/
+.vscode/
+.env
+*.env.local
+*.env.*.local
+docker-compose.override.yml
+/build.log
+
+### API Gateway ###
+api_gateway/app/logs/
+api_gateway/__pycache__/
+api_gateway/.venv/
+
+### Certbot ###
+certbot/conf/archive/
+certbot/conf/live/
+certbot/conf/renewal/
+certbot/www/
+
+### Frontend ###
+frontend/node_modules/
+frontend/.npm
+frontend/.cache
+frontend/.env
+
+### Monitoring ###
+monitoring/prometheus_data/
+monitoring/grafana/data/
+monitoring/grafana/plugins/
+monitoring/grafana/grafana.db
+
+### Nginx ###
+nginx/secrets/
+
+### Postgres ###
+postgres/data/
+
+### User Service ###
+user_service/__pycache__/
+user_service/.venv/
+user_service/app/logs/
+user_service/migrations/__pycache__/
+user_service/migrations/versions/__pycache__/
+
+### Миграции Alembic (оставляем только файлы .py) ###
+*.pyc
+
+### Исключения для системы ###
+**/__pycache__/
