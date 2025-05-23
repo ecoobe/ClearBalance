@@ -15,7 +15,7 @@ app.add_middleware(
     expose_headers=["Authorization"],
 )
 
-app.include_router(auth_router, prefix="/auth")
+app.include_router(auth_router, prefix="/api/auth")
 
 
 @app.get("/health")
