@@ -3,9 +3,11 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 import os
 import sys
+from os.path import abspath, dirname
+
+sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
 # Добавляем путь к проекту в PYTHONPATH
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
 
 # Импорт моделей
 from app.models import Base
