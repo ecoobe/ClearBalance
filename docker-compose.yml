@@ -27,10 +27,10 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 15s
-      timeout: 10s
+      interval: 20s
+      timeout: 15s
       retries: 5
-      start_period: 30s
+      start_period: 40s
     networks:
       - app-network
     command: gunicorn --bind 0.0.0.0:8000 --workers 2 app.main:app
