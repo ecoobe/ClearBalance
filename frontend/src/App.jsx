@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./styles.css";
-
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
+import ProfilePage from "./ProfilePage";
+import DropdownMenu from "./components/DropdownMenu";
 
 const HeroPage = () => (
   <main className="hero">
@@ -24,15 +25,12 @@ const HeroPage = () => (
 
 export default function App() {
   const navigate = useNavigate();
-  const [isLoggedIn] = useState(!!localStorage.getItem("token"));
-
-  const handleRegister = async () => {
-    navigate("/register");
-  };
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    setIsLoggedIn(false);
+    navigate("/");
   };
 
   return (
@@ -43,10 +41,9 @@ export default function App() {
             <span className="logo-gradient">coobe</span>
           </Link>
         </div>
+
         {isLoggedIn ? (
-          <button className="cta-button secondary" onClick={handleLogout}>
-            Выйти
-          </button>
+          <DropdownMenu onLogout={handleLogout} />
         ) : (
           <button
             className="cta-button secondary"
@@ -59,8 +56,12 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<HeroPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+        />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
