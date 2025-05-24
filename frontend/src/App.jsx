@@ -3,7 +3,6 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
-// Импорт новых компонентов
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 
