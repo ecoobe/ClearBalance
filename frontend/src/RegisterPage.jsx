@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ProgressDots from "./ProgressDots";
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
@@ -113,7 +114,8 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-page">
-      <h2>Регистрация ({step}/3)</h2>
+      <h2>Регистрация</h2>
+      <ProgressDots currentStep={step} totalSteps={3} />
 
       {step === 1 && (
         <form onSubmit={handleStartRegistration}>

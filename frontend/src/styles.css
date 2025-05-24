@@ -23,14 +23,14 @@ body {
   min-height: 100vh;
 }
 
-/* Навбар (полностью оригинальные размеры) */
+/* Навбар */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 5%;
   border-bottom: 1px solid var(--border);
-  height: 72px; /* Фиксированная высота как в оригинале */
+  height: 72px;
 }
 
 .logo-link {
@@ -46,12 +46,58 @@ body {
   background-clip: text;
   color: transparent;
   font-weight: 700;
-  font-size: 2rem; /* Увеличили только размер шрифта */
-  line-height: 1; /* Убираем лишний межстрочный интервал */
-  transform: translateY(2px); /* Микро-корректировка выравнивания */
+  font-size: 2rem;
+  line-height: 1;
+  transform: translateY(2px);
 }
 
-/* Остальные стили без изменений */
+/* Прогресс-индикатор */
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0.2;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.dot.active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.dot.active::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Основной контент */
 .hero {
   padding: 8rem 5% 4rem;
   text-align: center;
@@ -78,6 +124,7 @@ body {
   margin: 1.5rem 0;
 }
 
+/* Кнопки */
 .cta-button {
   background: var(--gradient);
   color: white;
@@ -118,6 +165,7 @@ body {
   box-shadow: none !important;
 }
 
+/* Страницы аутентификации */
 .auth-page {
   max-width: 400px;
   margin: 4rem auto;
@@ -183,13 +231,14 @@ body {
   }
 }
 
+/* Адаптивность */
 @media (max-width: 768px) {
   .gradient-text {
     font-size: 2.5rem;
   }
 
   .logo-gradient {
-    font-size: 1.75rem; /* Адаптация для мобилок */
+    font-size: 1.75rem;
     transform: translateY(1px);
   }
 
@@ -199,7 +248,7 @@ body {
 
   .navbar {
     padding: 1rem 5%;
-    height: 64px; /* Уменьшенная высота для мобилок */
+    height: 64px;
   }
 
   .cta-button {
@@ -220,5 +269,15 @@ body {
 
   .auth-page h2 {
     font-size: 1.75rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .progress-dots {
+    gap: 0.8rem;
+    margin: 1rem 0;
   }
 }
