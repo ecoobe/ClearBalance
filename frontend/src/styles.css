@@ -23,12 +23,12 @@ body {
   min-height: 100vh;
 }
 
-/* Навбар */
+/* Навбар (padding оставлен оригинальный) */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 5%;
+  padding: 1.5rem 5%; /* Оригинальный padding */
   border-bottom: 1px solid var(--border);
 }
 
@@ -47,7 +47,7 @@ body {
   background-clip: text;
   color: transparent;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 2rem; /* Увеличенный размер */
   letter-spacing: -0.5px;
 }
 
@@ -78,7 +78,7 @@ body {
   margin: 1.5rem 0;
 }
 
-/* Кнопки */
+/* Кнопки (вернул оригинальные параметры для secondary) */
 .cta-button {
   background: var(--gradient);
   color: white;
@@ -102,8 +102,8 @@ body {
   background: var(--bg-dark);
   border: 2px solid var(--primary);
   color: var(--primary);
-  padding: 0.8rem 2rem;
-  font-size: 1.1rem;
+  padding: 0.6rem 1.5rem; /* Оригинальный размер */
+  font-size: 0.95rem; /* Оригинальный размер */
 }
 
 .cta-button.secondary:hover {
@@ -193,7 +193,7 @@ body {
   }
 
   .logo-gradient {
-    font-size: 1.75rem;
+    font-size: 1.75rem; /* Чуть уменьшенный размер для мобилок */
   }
 
   .subtitle {
@@ -201,7 +201,7 @@ body {
   }
 
   .navbar {
-    padding: 1.5rem 5%;
+    padding: 1rem 5%;
   }
 
   .cta-button {
@@ -210,8 +210,8 @@ body {
   }
 
   .cta-button.secondary {
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
   }
 
   .auth-page {
