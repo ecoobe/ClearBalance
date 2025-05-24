@@ -23,17 +23,22 @@ body {
   min-height: 100vh;
 }
 
-/* Навбар */
+/* Навбар (padding оставлен оригинальный) */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
+  padding: 1.5rem 5%; /* Оригинальный padding */
   border-bottom: 1px solid var(--border);
 }
 
 .logo-link {
   text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.logo-link:hover {
+  transform: scale(1.05);
 }
 
 .logo-gradient {
@@ -42,7 +47,8 @@ body {
   background-clip: text;
   color: transparent;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 2rem; /* Увеличенный размер */
+  letter-spacing: -0.5px;
 }
 
 /* Основной контент */
@@ -72,7 +78,7 @@ body {
   margin: 1.5rem 0;
 }
 
-/* Кнопки */
+/* Кнопки (вернул оригинальные параметры для secondary) */
 .cta-button {
   background: var(--gradient);
   color: white;
@@ -96,8 +102,8 @@ body {
   background: var(--bg-dark);
   border: 2px solid var(--primary);
   color: var(--primary);
-  padding: 0.6rem 1.5rem;
-  font-size: 0.95rem;
+  padding: 0.6rem 1.5rem; /* Оригинальный размер */
+  font-size: 0.95rem; /* Оригинальный размер */
 }
 
 .cta-button.secondary:hover {
@@ -184,6 +190,10 @@ body {
 @media (max-width: 768px) {
   .gradient-text {
     font-size: 2.5rem;
+  }
+
+  .logo-gradient {
+    font-size: 1.75rem; /* Чуть уменьшенный размер для мобилок */
   }
 
   .subtitle {
