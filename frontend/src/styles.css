@@ -74,7 +74,7 @@ body {
   transform: scale(1.2);
 }
 
-.dot.active::after {
+.dot.current.active::after {
   content: "";
   position: absolute;
   top: -3px;
