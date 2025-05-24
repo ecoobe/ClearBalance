@@ -5,27 +5,25 @@ class RegistrationStart(BaseModel):
     email: EmailStr
 
 
-class RegistrationConfirm(BaseModel):
+class RegistrationCodeConfirm(BaseModel):
     email: EmailStr
     code: str
+
+
+class RegistrationSetPassword(BaseModel):
+    temp_token: str
     password: str
     password_confirm: str
 
     @field_validator("password")
     def validate_password(cls, v):
         if len(v) < 8:
-            raise ValueError("Password must be at least 8 characters")
+            raise ValueError("Пароль должен содержать минимум 8 символов")
         if not any(c.isupper() for c in v):
-            raise ValueError("Password must contain uppercase letters")
+            raise ValueError("Пароль должен содержать заглавные буквы")
         if not any(c.isdigit() for c in v):
-            raise ValueError("Password must contain digits")
+            raise ValueError("Пароль должен содержать цифры")
         return v
-
-
-# Добавленные классы
-class UserCreate(BaseModel):
-    email: EmailStr
-    password: str
 
 
 class UserResponse(BaseModel):

@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
-from app.database import Base  # Импорт Base из database.py
+from app.database import Base
 
 
 class User(Base):
@@ -13,3 +13,7 @@ class User(Base):
     is_verified = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     confirmation_code_expires = Column(DateTime)
+    temp_token = Column(String)
+    temp_token_expires = Column(DateTime)
+    last_code_sent_at = Column(DateTime)
+    registration_browser = Column(String)  # Новое поле

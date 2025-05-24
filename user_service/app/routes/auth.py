@@ -1,76 +1,84 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from typing import Optional
 import random
+import secrets
 
 from ..models import User
 from ..schemas import (
-    UserCreate,
     UserResponse,
     Token,
     RegistrationStart,
-    RegistrationConfirm,
+    RegistrationCodeConfirm,
+    RegistrationSetPassword,
 )
 from ..database import get_db
 from ..utils import get_password_hash, verify_password
 
 router = APIRouter(tags=["Auth"])
 
-# Конфигурация JWT
 SECRET_KEY = "your-secure-secret-key-1234"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 CONFIRMATION_CODE_EXPIRE_MINUTES = 15
+TEMP_TOKEN_EXPIRE_MINUTES = 10
+CODE_RESEND_INTERVAL = 60  # seconds
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 
 @router.post("/start-registration", response_model=dict)
-async def start_registration(data: RegistrationStart, db: Session = Depends(get_db)):
+async def start_registration(
+    request: Request, data: RegistrationStart, db: Session = Depends(get_db)
+):
+    user_agent = request.headers.get("User-Agent", "Unknown Browser")
     existing_user = db.query(User).filter(User.email == data.email).first()
 
-    if existing_user:
-        if existing_user.is_verified:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email уже зарегистрирован",
-            )
-        # Удаляем предыдущую попытку регистрации
-        db.delete(existing_user)
-        db.commit()
+    if existing_user and existing_user.is_verified:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email уже зарегистрирован",
+        )
 
-    # Генерация кода подтверждения
+    if existing_user and existing_user.last_code_sent_at:
+        time_since_last = datetime.utcnow() - existing_user.last_code_sent_at
+        if time_since_last.total_seconds() < CODE_RESEND_INTERVAL:
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail=f"Повторная отправка возможна через {int(CODE_RESEND_INTERVAL - time_since_last.total_seconds())} секунд",
+            )
+
     code = str(random.randint(100000, 999999))
     expires = datetime.utcnow() + timedelta(minutes=CONFIRMATION_CODE_EXPIRE_MINUTES)
 
-    new_user = User(
-        email=data.email,
-        confirmation_code=code,
-        confirmation_code_expires=expires,
-        is_verified=False,
-    )
+    if existing_user:
+        existing_user.confirmation_code = code
+        existing_user.confirmation_code_expires = expires
+        existing_user.last_code_sent_at = datetime.utcnow()
+    else:
+        new_user = User(
+            email=data.email,
+            confirmation_code=code,
+            confirmation_code_expires=expires,
+            last_code_sent_at=datetime.utcnow(),
+            registration_browser=user_agent,  # Сохраняем браузер
+        )
+        db.add(new_user)
 
-    db.add(new_user)
     db.commit()
 
-    # TODO: Заменить на реальную отправку email
     print(f"Код подтверждения для {data.email}: {code}")
+    return {
+        "message": "Код подтверждения отправлен",
+        "detail": "Проверьте папку спам, если письмо не пришло",
+    }
 
-    return {"message": "Код подтверждения отправлен на email"}
 
-
-@router.post("/confirm-registration", response_model=UserResponse)
-async def confirm_registration(
-    data: RegistrationConfirm, db: Session = Depends(get_db)
-):
-    if data.password != data.password_confirm:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Пароли не совпадают"
-        )
-
+@router.post("/confirm-code", response_model=dict)
+async def confirm_code(data: RegistrationCodeConfirm, db: Session = Depends(get_db)):
     user = (
         db.query(User)
         .filter(
@@ -87,13 +95,45 @@ async def confirm_registration(
             detail="Неверный код или срок действия истек",
         )
 
+    temp_token = secrets.token_urlsafe(32)
+    user.temp_token = temp_token
+    user.temp_token_expires = datetime.utcnow() + timedelta(
+        minutes=TEMP_TOKEN_EXPIRE_MINUTES
+    )
+    db.commit()
+
+    return {"temp_token": temp_token}
+
+
+@router.post("/set-password", response_model=UserResponse)
+async def set_password(data: RegistrationSetPassword, db: Session = Depends(get_db)):
+    if data.password != data.password_confirm:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Пароли не совпадают"
+        )
+
+    user = (
+        db.query(User)
+        .filter(
+            User.temp_token == data.temp_token,
+            User.temp_token_expires > datetime.utcnow(),
+        )
+        .first()
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Недействительный токен"
+        )
+
     user.hashed_password = get_password_hash(data.password)
     user.is_verified = True
     user.confirmation_code = None
     user.confirmation_code_expires = None
+    user.temp_token = None
+    user.temp_token_expires = None
 
     db.commit()
-
     return user
 
 
@@ -124,10 +164,6 @@ def login(
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)

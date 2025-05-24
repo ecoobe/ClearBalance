@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
@@ -7,8 +7,20 @@ export default function RegisterPage() {
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [tempToken, setTempToken] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let interval;
+    if (resendCooldown > 0) {
+      interval = setInterval(() => {
+        setResendCooldown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendCooldown]);
 
   const handleStartRegistration = async (e) => {
     e.preventDefault();
@@ -27,6 +39,7 @@ export default function RegisterPage() {
       }
 
       setStep(2);
+      setResendCooldown(60);
     } catch (error) {
       alert(error.message);
     } finally {
@@ -34,17 +47,42 @@ export default function RegisterPage() {
     }
   };
 
-  const handleConfirmRegistration = async (e) => {
+  const handleConfirmCode = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/confirm-registration", {
+      const response = await fetch("/api/auth/confirm-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, code }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Ошибка подтверждения кода");
+      }
+
+      const data = await response.json();
+      setTempToken(data.temp_token);
+      setStep(3);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSetPassword = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/set-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email,
-          code,
+          temp_token: tempToken,
           password,
           password_confirm: confirmPassword,
         }),
@@ -52,7 +90,7 @@ export default function RegisterPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Ошибка регистрации");
+        throw new Error(errorData.detail || "Ошибка установки пароля");
       }
 
       alert("Регистрация успешно завершена!");
@@ -64,11 +102,20 @@ export default function RegisterPage() {
     }
   };
 
+  const handleResendCode = async () => {
+    try {
+      await handleStartRegistration(new Event("submit"));
+      setResendCooldown(60);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <div className="auth-page">
-      <h2>Регистрация ({step}/2)</h2>
+      <h2>Регистрация ({step}/3)</h2>
 
-      {step === 1 ? (
+      {step === 1 && (
         <form onSubmit={handleStartRegistration}>
           <input
             type="email"
@@ -96,10 +143,12 @@ export default function RegisterPage() {
             </button>
           </div>
         </form>
-      ) : (
-        <form onSubmit={handleConfirmRegistration}>
+      )}
+
+      {step === 2 && (
+        <form onSubmit={handleConfirmCode}>
           <p className="info-text">
-            На адрес {email} отправлен код подтверждения
+            На адрес {email} отправлен код подтверждения. Проверьте спам.
           </p>
           <input
             type="text"
@@ -109,6 +158,34 @@ export default function RegisterPage() {
             required
             disabled={isLoading}
           />
+          <div className="button-group">
+            <button type="submit" className="cta-button" disabled={isLoading}>
+              {isLoading ? <div className="spinner"></div> : "Подтвердить код"}
+            </button>
+            <button
+              type="button"
+              className="cta-button secondary"
+              onClick={handleResendCode}
+              disabled={resendCooldown > 0 || isLoading}
+            >
+              {resendCooldown > 0
+                ? `Отправить повторно (${resendCooldown})`
+                : "Отправить код повторно"}
+            </button>
+            <button
+              type="button"
+              className="cta-button secondary"
+              onClick={() => setStep(1)}
+              disabled={isLoading}
+            >
+              Назад
+            </button>
+          </div>
+        </form>
+      )}
+
+      {step === 3 && (
+        <form onSubmit={handleSetPassword}>
           <input
             type="password"
             placeholder="Придумайте пароль"
@@ -136,7 +213,7 @@ export default function RegisterPage() {
             <button
               type="button"
               className="cta-button secondary"
-              onClick={() => setStep(1)}
+              onClick={() => setStep(2)}
               disabled={isLoading}
             >
               Назад
