@@ -23,22 +23,21 @@ body {
   min-height: 100vh;
 }
 
-/* Навбар (padding оставлен оригинальный) */
+/* Навбар (полностью оригинальные размеры) */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%; /* Оригинальный padding */
+  padding: 1.5rem 5%;
   border-bottom: 1px solid var(--border);
+  height: 72px; /* Фиксированная высота как в оригинале */
 }
 
 .logo-link {
   text-decoration: none;
-  transition: transform 0.2s ease;
-}
-
-.logo-link:hover {
-  transform: scale(1.05);
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .logo-gradient {
@@ -47,11 +46,12 @@ body {
   background-clip: text;
   color: transparent;
   font-weight: 700;
-  font-size: 2rem; /* Увеличенный размер */
-  letter-spacing: -0.5px;
+  font-size: 2rem; /* Увеличили только размер шрифта */
+  line-height: 1; /* Убираем лишний межстрочный интервал */
+  transform: translateY(2px); /* Микро-корректировка выравнивания */
 }
 
-/* Основной контент */
+/* Остальные стили без изменений */
 .hero {
   padding: 8rem 5% 4rem;
   text-align: center;
@@ -78,7 +78,6 @@ body {
   margin: 1.5rem 0;
 }
 
-/* Кнопки (вернул оригинальные параметры для secondary) */
 .cta-button {
   background: var(--gradient);
   color: white;
@@ -102,8 +101,8 @@ body {
   background: var(--bg-dark);
   border: 2px solid var(--primary);
   color: var(--primary);
-  padding: 0.6rem 1.5rem; /* Оригинальный размер */
-  font-size: 0.95rem; /* Оригинальный размер */
+  padding: 0.6rem 1.5rem;
+  font-size: 0.95rem;
 }
 
 .cta-button.secondary:hover {
@@ -119,7 +118,6 @@ body {
   box-shadow: none !important;
 }
 
-/* Страницы аутентификации */
 .auth-page {
   max-width: 400px;
   margin: 4rem auto;
@@ -169,7 +167,6 @@ body {
   margin-top: 1.5rem;
 }
 
-/* Спиннер */
 .spinner {
   width: 24px;
   height: 24px;
@@ -186,14 +183,14 @@ body {
   }
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
   .gradient-text {
     font-size: 2.5rem;
   }
 
   .logo-gradient {
-    font-size: 1.75rem; /* Чуть уменьшенный размер для мобилок */
+    font-size: 1.75rem; /* Адаптация для мобилок */
+    transform: translateY(1px);
   }
 
   .subtitle {
@@ -202,6 +199,7 @@ body {
 
   .navbar {
     padding: 1rem 5%;
+    height: 64px; /* Уменьшенная высота для мобилок */
   }
 
   .cta-button {
