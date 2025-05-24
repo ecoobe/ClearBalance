@@ -28,12 +28,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
+  padding: 2rem 5%;
   border-bottom: 1px solid var(--border);
 }
 
 .logo-link {
   text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.logo-link:hover {
+  transform: scale(1.05);
 }
 
 .logo-gradient {
@@ -42,7 +47,8 @@ body {
   background-clip: text;
   color: transparent;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  letter-spacing: -0.5px;
 }
 
 /* Основной контент */
@@ -96,8 +102,8 @@ body {
   background: var(--bg-dark);
   border: 2px solid var(--primary);
   color: var(--primary);
-  padding: 0.6rem 1.5rem;
-  font-size: 0.95rem;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
 }
 
 .cta-button.secondary:hover {
@@ -186,12 +192,16 @@ body {
     font-size: 2.5rem;
   }
 
+  .logo-gradient {
+    font-size: 1.75rem;
+  }
+
   .subtitle {
     font-size: 1rem;
   }
 
   .navbar {
-    padding: 1rem 5%;
+    padding: 1.5rem 5%;
   }
 
   .cta-button {
@@ -200,8 +210,8 @@ body {
   }
 
   .cta-button.secondary {
-    padding: 0.5rem 1.2rem;
-    font-size: 0.9rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
   }
 
   .auth-page {
