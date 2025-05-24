@@ -1,19 +1,18 @@
 import React from "react";
 import "./styles.css";
 
-function ProgressDots({ currentStep, totalSteps }) {
+export default function ProgressDots({ currentStep, totalSteps }) {
   return (
     <div className="progress-dots">
-      {Array.from({ length: totalSteps }).map((_, index) => {
-        const stepNumber = index + 1;
-        const isActive = stepNumber <= currentStep;
-        const isCurrent = stepNumber === currentStep;
+      {[...Array(totalSteps)].map((_, index) => {
+        const isCompleted = index < currentStep - 1;
+        const isActive = index === currentStep - 1;
 
         return (
           <div
             key={index}
-            className={`dot ${isActive ? "active" : ""} ${
-              isCurrent ? "current" : ""
+            className={`dot ${isCompleted ? "completed" : ""} ${
+              isActive ? "active" : ""
             }`}
           />
         );

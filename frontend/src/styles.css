@@ -69,12 +69,18 @@ body {
   position: relative;
 }
 
+.dot.completed {
+  opacity: 1;
+  background: var(--primary);
+}
+
 .dot.active {
   opacity: 1;
   transform: scale(1.2);
+  background: var(--primary);
 }
 
-.dot.current.active::after {
+.dot.active::after {
   content: "";
   position: absolute;
   top: -3px;
@@ -274,6 +280,17 @@ body {
   .dot {
     width: 10px;
     height: 10px;
+  }
+
+  .dot.active {
+    transform: scale(1.1);
+  }
+
+  .dot.active::after {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
   }
 
   .progress-dots {
