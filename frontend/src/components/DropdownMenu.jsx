@@ -1,6 +1,7 @@
 // frontend/src/components/DropdownMenu.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import ProfileIcon from "./ProfileIcon";
 
 export default function DropdownMenu() {
   const [isOpen, setIsOpen] = useState(false);
