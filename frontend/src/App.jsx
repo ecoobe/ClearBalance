@@ -25,17 +25,36 @@ const HeroPage = () => (
 
 export default function App() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return Boolean(localStorage.getItem("token"));
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      setIsLoggedIn(Boolean(localStorage.getItem("token")));
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setIsLoggedIn(false);
+        setIsCheckingAuth(false);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/users/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+          setIsLoggedIn(true);
+        } else {
+          localStorage.removeItem("token");
+        }
+      } catch (error) {
+        console.error("Auth check failed:", error);
+      } finally {
+        setIsCheckingAuth(false);
+      }
     };
 
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
+    checkAuth();
   }, []);
 
   const handleLogout = () => {
@@ -43,6 +62,10 @@ export default function App() {
     setIsLoggedIn(false);
     navigate("/");
   };
+
+  if (isCheckingAuth) {
+    return <div className="loading-screen">Загрузка...</div>;
+  }
 
   return (
     <div className="app">
@@ -54,12 +77,7 @@ export default function App() {
         </div>
 
         {isLoggedIn ? (
-          <div className="nav-group">
-            <Link to="/profile" className="nav-link">
-              Профиль
-            </Link>
-            <DropdownMenu onLogout={handleLogout} />
-          </div>
+          <DropdownMenu onLogout={handleLogout} />
         ) : (
           <button
             className="cta-button secondary"
