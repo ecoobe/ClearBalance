@@ -8,8 +8,8 @@
   --border: #30363d;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   --menu-bg: #161b22;
-  --menu-border: rgba(255, 255, 255, 0.05);
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --menu-border: rgba(255, 255, 255, 0.08);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -32,13 +32,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 5%;
-  border-bottom: 1px solid var(--border);
-  height: 72px;
+  padding: 0 5%;
+  height: 64px;
   background: var(--bg-dark);
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid var(--border);
 }
 
 .nav-left-group {
@@ -55,14 +55,13 @@ body {
 .nav-right-group {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .logo-link {
   text-decoration: none;
   display: flex;
   align-items: center;
-  height: 100%;
 }
 
 .logo-gradient {
@@ -71,8 +70,7 @@ body {
   background-clip: text;
   color: transparent;
   font-weight: 700;
-  font-size: 1.8rem;
-  line-height: 1;
+  font-size: 1.6rem;
   letter-spacing: -0.5px;
 }
 
@@ -93,10 +91,11 @@ body {
 
 /* Иконки */
 .icon-link {
-  padding: 8px;
-  border-radius: 50%;
+  padding: 6px;
+  border-radius: 8px;
   transition: var(--transition);
   display: flex;
+  position: relative;
 }
 
 .icon-link:hover {
@@ -107,27 +106,34 @@ body {
   width: 24px;
   height: 24px;
   stroke: var(--text);
+  stroke-width: 1.8;
 }
 
-/* Выпадающее меню */
-.dropdown-container {
+/* Выпадающее меню профиля */
+.profile-dropdown {
   position: relative;
 }
 
 .profile-button {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  padding: 8px;
-  cursor: pointer;
-  transition: var(--transition);
   display: flex;
   align-items: center;
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .profile-button:hover {
-  border-color: var(--primary);
   background: rgba(31, 111, 235, 0.1);
+}
+
+.profile-button svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--text);
+  stroke-width: 1.5;
 }
 
 .dropdown-menu {
@@ -137,43 +143,39 @@ body {
   background: var(--menu-bg);
   border: 1px solid var(--menu-border);
   border-radius: 8px;
-  min-width: 240px;
+  min-width: 200px;
   box-shadow: var(--shadow);
   opacity: 0;
   transform: translateY(-10px);
-  animation: menuAppear 0.2s ease-out forwards;
+  visibility: hidden;
+  transition: var(--transition);
   z-index: 1000;
 }
 
-@keyframes menuAppear {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.dropdown-menu.active {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
-.user-preview {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.dropdown-header {
   padding: 1rem;
   border-bottom: 1px solid var(--menu-border);
 }
 
-.menu-items {
-  padding: 0.5rem;
+.dropdown-email {
+  font-size: 0.9rem;
+  color: #848d97;
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 100%;
   padding: 0.75rem 1rem;
   color: var(--text);
   text-decoration: none;
   font-size: 0.95rem;
-  border-radius: 6px;
   transition: var(--transition);
 }
 
@@ -183,7 +185,6 @@ body {
 
 .dropdown-item.logout {
   color: #ff6b6b;
-  margin-top: 0.25rem;
   border-top: 1px solid var(--menu-border);
 }
 
@@ -207,7 +208,7 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  font-size: 3rem;
+  font-size: 2.8rem;
   line-height: 1.1;
   margin-bottom: 1.5rem;
 }
@@ -429,29 +430,26 @@ body {
     display: none;
   }
 
-  .mobile-menu-button {
-    display: block;
-    background: none;
-    border: none;
-    color: var(--text);
-    padding: 8px;
-  }
-
   .logo-gradient {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
-  .hero {
-    padding: 4rem 5% 2rem;
+  .profile-button svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .dropdown-menu {
+    min-width: 180px;
+    right: -6px;
   }
 
   .gradient-text {
     font-size: 2.2rem;
   }
 
-  .dropdown-menu {
-    min-width: 200px;
-    right: -8px;
+  .hero {
+    padding: 4rem 5% 2rem;
   }
 }
 
@@ -471,5 +469,9 @@ body {
   .profile-page {
     margin: 1rem;
     padding: 1.5rem;
+  }
+
+  .dropdown-menu {
+    min-width: 160px;
   }
 }
