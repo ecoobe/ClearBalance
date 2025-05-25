@@ -7,6 +7,7 @@ import RegisterPage from "./RegisterPage";
 import ProfilePage from "./ProfilePage";
 import DropdownMenu from "./components/DropdownMenu";
 import StubPage from "./components/StubPage";
+import BellIcon from "./components/BellIcon";
 
 const HeroPage = () => (
   <main className="hero">
@@ -61,6 +62,7 @@ export default function App() {
           <Link to="/" className="logo-link">
             <span className="logo-gradient">coobe</span>
           </Link>
+
           {isLoggedIn && (
             <div className="nav-links">
               <Link to="/dashboard" className="nav-link">
@@ -106,9 +108,14 @@ export default function App() {
         />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/products" element={<StubPage title="Мои продукты" />} />
-        <Route path="/analytics" element={<StubPage title="Аналитика" />} />
-        <Route path="/about" element={<StubPage title="О приложении" />} />
+        <Route path="/dashboard" element={<StubPage title="Дашборд" />} />
+        <Route path="/transactions" element={<StubPage title="Транзакции" />} />
+        <Route path="/accounts" element={<StubPage title="Счета" />} />
+        <Route path="/reports" element={<StubPage title="Отчеты" />} />
+        <Route
+          path="/notifications"
+          element={<StubPage title="Уведомления" />}
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>

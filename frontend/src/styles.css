@@ -41,6 +41,23 @@ body {
   z-index: 1000;
 }
 
+.nav-left-group {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-right-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 .logo-link {
   text-decoration: none;
   display: flex;
@@ -59,19 +76,11 @@ body {
   letter-spacing: -0.5px;
 }
 
-.nav-group {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
 .nav-link {
   color: var(--text);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease;
   font-size: 0.95rem;
-  position: relative;
   padding: 8px 12px;
   border-radius: 6px;
   transition: var(--transition);
@@ -80,6 +89,24 @@ body {
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.03);
   color: var(--primary);
+}
+
+/* Иконки */
+.icon-link {
+  padding: 8px;
+  border-radius: 50%;
+  transition: var(--transition);
+  display: flex;
+}
+
+.icon-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.icon-link svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text);
 }
 
 /* Выпадающее меню */
@@ -101,22 +128,6 @@ body {
 .profile-button:hover {
   border-color: var(--primary);
   background: rgba(31, 111, 235, 0.1);
-}
-
-.profile-button.active {
-  background: var(--primary);
-  border-color: transparent;
-}
-
-.profile-button svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--text);
-  transition: stroke 0.2s ease;
-}
-
-.profile-button.active svg {
-  stroke: #fff;
 }
 
 .dropdown-menu {
@@ -149,11 +160,6 @@ body {
   border-bottom: 1px solid var(--menu-border);
 }
 
-.user-preview span {
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
 .menu-items {
   padding: 0.5rem;
 }
@@ -183,12 +189,6 @@ body {
 
 .dropdown-item.logout:hover {
   background: rgba(240, 71, 71, 0.05);
-}
-
-.menu-icon {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
 }
 
 /* Основной контент */
@@ -256,27 +256,6 @@ body {
   cursor: not-allowed;
   transform: none !important;
   box-shadow: none !important;
-}
-
-/* Страницы-заглушки */
-.stub-page {
-  max-width: 800px;
-  margin: 4rem auto;
-  padding: 2rem;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.stub-page h2 {
-  margin-bottom: 1.5rem;
-  color: var(--primary);
-}
-
-.stub-page p {
-  font-size: 1.2rem;
-  color: #848d97;
 }
 
 /* Формы */
@@ -386,31 +365,80 @@ body {
   border: 1px solid var(--border);
 }
 
-.profile-info p {
-  padding: 1rem;
+.profile-info-card {
+  padding: 1.5rem;
   background: rgba(255, 255, 255, 0.015);
-  border-radius: 6px;
-  margin: 1rem 0;
+  border-radius: 8px;
   border: 1px solid var(--border);
 }
 
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: #848d97;
+}
+
+.info-value {
+  font-weight: 500;
+}
+
+/* Страницы-заглушки */
+.stub-page {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.stub-page h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.stub-page p {
+  font-size: 1.2rem;
+  color: #848d97;
+}
+
 /* Адаптивность */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 1rem 5%;
-    height: 64px;
-  }
-
-  .logo-gradient {
-    font-size: 1.5rem;
-  }
-
-  .nav-group {
+@media (max-width: 1024px) {
+  .nav-links {
     gap: 1rem;
   }
 
   .nav-link {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
     display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--text);
+    padding: 8px;
+  }
+
+  .logo-gradient {
+    font-size: 1.5rem;
   }
 
   .hero {
@@ -421,28 +449,9 @@ body {
     font-size: 2.2rem;
   }
 
-  .subtitle {
-    font-size: 1rem;
-  }
-
   .dropdown-menu {
     min-width: 200px;
     right: -8px;
-  }
-
-  .cta-button {
-    padding: 0.7rem 1.5rem;
-    font-size: 0.95rem;
-  }
-
-  .auth-page {
-    margin: 2rem auto;
-    padding: 1.5rem;
-  }
-
-  .profile-page {
-    margin: 1rem;
-    padding: 1.5rem;
   }
 }
 
@@ -455,7 +464,12 @@ body {
     font-size: 1.8rem;
   }
 
-  .dropdown-menu {
-    min-width: 180px;
+  .nav-right-group {
+    gap: 1rem;
+  }
+
+  .profile-page {
+    margin: 1rem;
+    padding: 1.5rem;
   }
 }
