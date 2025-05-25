@@ -27,7 +27,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Навбар */
+/* Навигационная панель */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -166,6 +166,9 @@ body {
 .dropdown-email {
   font-size: 0.9rem;
   color: #848d97;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-item {
@@ -186,6 +189,8 @@ body {
 .dropdown-item.logout {
   color: #ff6b6b;
   border-top: 1px solid var(--menu-border);
+  margin-top: 0.5rem;
+  padding-top: 1rem;
 }
 
 .dropdown-item.logout:hover {
@@ -255,8 +260,8 @@ body {
 .cta-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Формы */
@@ -473,5 +478,9 @@ body {
 
   .dropdown-menu {
     min-width: 160px;
+  }
+
+  .dropdown-item {
+    padding: 0.75rem;
   }
 }
