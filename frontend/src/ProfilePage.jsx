@@ -30,9 +30,16 @@ export default function ProfilePage() {
         }
 
         const data = await response.json();
+        console.log("Received data:", data); // Для отладки
+
+        // Правильное преобразование даты
+        const createdAt = data.created_at
+          ? new Date(data.created_at.replace(" ", "T"))
+          : null;
+
         setUserData({
           ...data,
-          created_at: data.created_at ? new Date(data.created_at) : null,
+          created_at: createdAt,
         });
       } catch (error) {
         console.error("Profile fetch error:", error);
@@ -43,14 +50,20 @@ export default function ProfilePage() {
   }, [navigate]);
 
   const formatDate = (date) => {
-    if (!date || !(date instanceof Date)) return "";
-    return date.toLocaleDateString("ru-RU", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    if (!date || !(date instanceof Date)) return "Дата не указана";
+
+    try {
+      return date.toLocaleDateString("ru-RU", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch (e) {
+      console.error("Date formatting error:", e);
+      return "Некорректная дата";
+    }
   };
 
   return (
