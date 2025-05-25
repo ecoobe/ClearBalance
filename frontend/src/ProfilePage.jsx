@@ -30,29 +30,32 @@ export default function ProfilePage() {
         }
 
         const data = await response.json();
-        console.log("Received data:", data); // Для отладки
-
-        // Правильное преобразование даты
-        const createdAt = data.created_at
-          ? new Date(data.created_at.replace(" ", "T"))
-          : null;
+        console.log("Данные профиля:", data); // Для отладки
 
         setUserData({
           ...data,
-          created_at: createdAt,
+          created_at: data.created_at || null,
         });
       } catch (error) {
-        console.error("Profile fetch error:", error);
+        console.error("Ошибка загрузки профиля:", error);
       }
     };
 
     fetchProfile();
   }, [navigate]);
 
-  const formatDate = (date) => {
-    if (!date || !(date instanceof Date)) return "Дата не указана";
+  const formatDate = (dateString) => {
+    if (!dateString) return "Дата не указана";
 
     try {
+      // Парсим дату через Date.parse для валидации
+      const timestamp = Date.parse(dateString);
+      if (isNaN(timestamp)) {
+        throw new Error("Неверный формат даты");
+      }
+
+      const date = new Date(dateString);
+
       return date.toLocaleDateString("ru-RU", {
         year: "numeric",
         month: "long",
@@ -60,9 +63,9 @@ export default function ProfilePage() {
         hour: "2-digit",
         minute: "2-digit",
       });
-    } catch (e) {
-      console.error("Date formatting error:", e);
-      return "Некорректная дата";
+    } catch (error) {
+      console.error("Ошибка форматирования даты:", dateString, error);
+      return "Некорректный формат даты";
     }
   };
 
@@ -84,15 +87,6 @@ export default function ProfilePage() {
                 {formatDate(userData.created_at)}
               </span>
             </div>
-
-            {userData.registration_browser && (
-              <div className="info-item">
-                <span className="info-label">Браузер регистрации:</span>
-                <span className="info-value">
-                  {userData.registration_browser}
-                </span>
-              </div>
-            )}
           </div>
         </div>
       )}
