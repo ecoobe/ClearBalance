@@ -57,29 +57,36 @@ export default function App() {
   return (
     <div className="app">
       <nav className="navbar">
-        <div className="logo">
+        <div className="nav-left-group">
           <Link to="/" className="logo-link">
             <span className="logo-gradient">coobe</span>
           </Link>
+          {isLoggedIn && (
+            <div className="nav-links">
+              <Link to="/dashboard" className="nav-link">
+                Дашборд
+              </Link>
+              <Link to="/transactions" className="nav-link">
+                Транзакции
+              </Link>
+              <Link to="/accounts" className="nav-link">
+                Счета
+              </Link>
+              <Link to="/reports" className="nav-link">
+                Отчеты
+              </Link>
+            </div>
+          )}
         </div>
 
-        <div className="nav-group">
-          {isLoggedIn && (
-            <>
-              <Link to="/products" className="nav-link">
-                Мои продукты
-              </Link>
-              <Link to="/analytics" className="nav-link">
-                Аналитика
-              </Link>
-              <Link to="/about" className="nav-link">
-                О приложении
-              </Link>
-            </>
-          )}
-
+        <div className="nav-right-group">
           {isLoggedIn ? (
-            <DropdownMenu onLogout={handleLogout} />
+            <>
+              <Link to="/notifications" className="icon-link">
+                <BellIcon />
+              </Link>
+              <DropdownMenu onLogout={handleLogout} />
+            </>
           ) : (
             <button
               className="cta-button secondary"

@@ -28,17 +28,38 @@ body {
 }
 
 /* Навбар */
-.navbar {
+.nav-left-group {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 5%;
-  border-bottom: 1px solid var(--border);
-  height: 72px;
-  background: var(--bg-dark);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  gap: 2rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-right-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.icon-link {
+  padding: 8px;
+  border-radius: 50%;
+  transition: var(--transition);
+  display: flex;
+}
+
+.icon-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.icon-link svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text);
 }
 
 .logo-link {
@@ -395,6 +416,32 @@ body {
 }
 
 /* Адаптивность */
+
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--text);
+    padding: 8px;
+  }
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 1rem 5%;
