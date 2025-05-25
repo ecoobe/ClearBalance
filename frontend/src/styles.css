@@ -223,6 +223,13 @@ body {
   color: white;
 }
 
+.cta-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 /* Формы */
 .auth-page {
   max-width: 400px;
@@ -277,6 +284,49 @@ body {
   }
 }
 
+/* Прогресс-индикатор */
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0.2;
+  transition: var(--transition);
+}
+
+.dot.completed {
+  opacity: 1;
+}
+
+.dot.active {
+  opacity: 1;
+  transform: scale(1.2);
+  position: relative;
+}
+
+.dot.active::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
 /* Страница профиля */
 .profile-page {
   max-width: 800px;
@@ -311,6 +361,43 @@ body {
 
 .info-value {
   font-weight: 500;
+}
+
+/* Страницы-заглушки */
+.stub-page {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.stub-page h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.stub-page p {
+  font-size: 1.2rem;
+  color: #848d97;
+}
+
+/* Уведомления */
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.7rem;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Адаптивность */
@@ -348,5 +435,13 @@ body {
   .profile-page {
     margin: 1rem;
     padding: 1.5rem;
+  }
+
+  .dropdown-item {
+    padding: 0.75rem;
+  }
+
+  .cta-button {
+    padding: 0.7rem 1.5rem;
   }
 }
