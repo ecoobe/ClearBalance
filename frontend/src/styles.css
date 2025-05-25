@@ -51,61 +51,6 @@ body {
   transform: translateY(2px);
 }
 
-/* Профиль и выпадающее меню */
-.profile-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 50%;
-  transition: transform 0.2s ease;
-}
-
-.profile-button:hover {
-  transform: scale(1.1);
-}
-
-.profile-button svg {
-  color: var(--primary);
-}
-
-.dropdown-container {
-  position: relative;
-}
-
-.dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: var(--bg-dark);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.5rem;
-  min-width: 180px;
-  box-shadow: var(--shadow);
-  z-index: 100;
-}
-
-.dropdown-item {
-  display: block;
-  padding: 0.8rem 1rem;
-  color: var(--text);
-  text-decoration: none;
-  transition: background 0.2s ease;
-  border-radius: 6px;
-}
-
-.dropdown-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.dropdown-item.logout {
-  color: #ff6b6b;
-  border-top: 1px solid var(--border);
-  margin-top: 0.5rem;
-  padding-top: 0.8rem;
-}
-
 /* Прогресс-индикатор */
 .progress-dots {
   display: flex;
@@ -352,33 +297,4 @@ body {
     gap: 0.8rem;
     margin: 1rem 0;
   }
-
-  .dropdown-menu {
-    min-width: 160px;
-  }
-
-  .profile-page {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-}
-
-/* Страница профиля */
-.profile-page {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-.profile-content {
-  margin-top: 1.5rem;
-}
-
-.profile-info p {
-  margin: 1rem 0;
-  padding: 0.8rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
 }
