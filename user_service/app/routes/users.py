@@ -22,23 +22,34 @@ async def get_current_user(
     )
 
     try:
+        # Декодируем JWT токен
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email = payload.get("sub")
 
         if not email:
             raise credentials_exception
 
+        # Ищем пользователя в базе данных
         user = db.query(User).filter(User.email == email).first()
-
         if not user:
             raise credentials_exception
 
-        # Преобразуем дату в ISO формат
-        created_at_iso = user.created_at.isoformat() if user.created_at else None
+        # Преобразование даты в ISO 8601 с явным указанием временной зоны
+        created_at_iso = user.created_at.replace(microsecond=0).isoformat() + "Z"
 
-        return UserResponse(
-            email=user.email, is_verified=user.is_verified, created_at=created_at_iso
-        )
+        # Формируем ответ с обязательными полями схемы
+        return {
+            "email": user.email,
+            "is_verified": user.is_verified,
+            "created_at": created_at_iso,
+        }
 
-    except JWTError:
+    except JWTError as e:
+        print(f"JWT Error: {str(e)}")
         raise credentials_exception
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Внутренняя ошибка сервера",
+        )

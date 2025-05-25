@@ -1,4 +1,3 @@
-// frontend/src/ProfilePage.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,17 +30,11 @@ export default function ProfilePage() {
         }
 
         const data = await response.json();
-        console.log("Данные профиля:", data);
-
-        // Проверка наличия created_at
-        if (!data.created_at) {
-          console.error("Ошибка: поле created_at отсутствует в ответе API");
-          return;
-        }
+        console.log("Данные профиля:", data); // Для отладки
 
         setUserData({
-          email: data.email,
-          created_at: data.created_at,
+          ...data,
+          created_at: data.created_at || null,
         });
       } catch (error) {
         console.error("Ошибка загрузки профиля:", error);
@@ -55,10 +48,13 @@ export default function ProfilePage() {
     if (!dateString) return "Дата не указана";
 
     try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) {
+      // Парсим дату через Date.parse для валидации
+      const timestamp = Date.parse(dateString);
+      if (isNaN(timestamp)) {
         throw new Error("Неверный формат даты");
       }
+
+      const date = new Date(dateString);
 
       return date.toLocaleDateString("ru-RU", {
         year: "numeric",
@@ -68,8 +64,8 @@ export default function ProfilePage() {
         minute: "2-digit",
       });
     } catch (error) {
-      console.error("Ошибка форматирования даты:", error);
-      return "Некорректная дата";
+      console.error("Ошибка форматирования даты:", dateString, error);
+      return "Некорректный формат даты";
     }
   };
 
@@ -77,7 +73,7 @@ export default function ProfilePage() {
     <div className="profile-page">
       <h2 className="profile-title">Мой профиль</h2>
 
-      {userData ? (
+      {userData && (
         <div className="profile-content">
           <div className="profile-info-card">
             <div className="info-item">
@@ -93,8 +89,6 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-      ) : (
-        <p>Загрузка данных профиля...</p>
       )}
     </div>
   );
