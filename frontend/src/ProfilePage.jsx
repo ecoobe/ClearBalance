@@ -8,6 +8,8 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -22,9 +24,8 @@ export default function ProfilePage() {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
+          signal: controller.signal,
         });
-
-        const data = await response.json();
 
         if (!response.ok) {
           if (response.status === 401) {
@@ -32,17 +33,18 @@ export default function ProfilePage() {
             navigate("/login");
             return;
           }
-          throw new Error(data.detail || "Ошибка загрузки профиля");
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
 
+        const data = await response.json();
         setUserData({
           ...data,
           created_at: data.created_at ? new Date(data.created_at) : null,
         });
         setError("");
       } catch (error) {
-        setError(error.message || "Произошла непредвиденная ошибка");
         if (error.name !== "AbortError") {
+          setError(error.message || "Произошла непредвиденная ошибка");
           console.error("Profile fetch error:", error);
         }
       } finally {
@@ -51,6 +53,7 @@ export default function ProfilePage() {
     };
 
     fetchProfile();
+    return () => controller.abort();
   }, [navigate]);
 
   const formatDate = (date) => {

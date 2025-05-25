@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from app.routes.auth import router as auth_router
+from app.routes.users import router as users_router
 
 app = FastAPI(title="User Service", version="0.1.0")
 
@@ -16,6 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix="/api/auth")
+app.include_router(users_router, prefix="/api/users")
 
 
 @app.get("/health")

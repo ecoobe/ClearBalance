@@ -64,7 +64,7 @@ async def start_registration(
             confirmation_code=code,
             confirmation_code_expires=expires,
             last_code_sent_at=datetime.utcnow(),
-            registration_browser=user_agent,  # Сохраняем браузер
+            registration_browser=user_agent,
         )
         db.add(new_user)
 
@@ -106,7 +106,16 @@ async def confirm_code(data: RegistrationCodeConfirm, db: Session = Depends(get_
 
 
 @router.post("/set-password", response_model=UserResponse)
-async def set_password(data: RegistrationSetPassword, db: Session = Depends(get_db)):
+async def set_password(
+    request: Request, data: RegistrationSetPassword, db: Session = Depends(get_db)
+):
+    # Проверка заголовка Content-Type
+    if request.headers.get("Content-Type") != "application/json":
+        raise HTTPException(
+            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+            detail="Требуется Content-Type: application/json",
+        )
+
     if data.password != data.password_confirm:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Пароли не совпадают"
@@ -123,9 +132,11 @@ async def set_password(data: RegistrationSetPassword, db: Session = Depends(get_
 
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Недействительный токен"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Недействительный или просроченный токен",
         )
 
+    # Обновление данных пользователя
     user.hashed_password = get_password_hash(data.password)
     user.is_verified = True
     user.confirmation_code = None
@@ -138,12 +149,16 @@ async def set_password(data: RegistrationSetPassword, db: Session = Depends(get_
 
 
 @router.post("/login", response_model=Token)
-def login(
+async def login(
     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
     user = (
         db.query(User)
-        .filter(User.email == form_data.username, User.is_verified == True)
+        .filter(
+            User.email == form_data.username,
+            User.is_verified == True,
+            User.hashed_password.isnot(None),
+        )
         .first()
     )
 
@@ -159,10 +174,14 @@ def login(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
 
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "expires_in": ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+    }
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     to_encode = data.copy()
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=15))
     to_encode.update({"exp": expire})
