@@ -269,15 +269,6 @@ body {
   box-shadow: none !important;
 }
 
-.loading-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-size: 1.2rem;
-  color: var(--text);
-}
-
 /* Profile page error handling */
 .profile-error {
   text-align: center;

@@ -3,37 +3,30 @@ import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState(null);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const controller = new AbortController();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-          navigate("/login");
-          return;
-        }
-
-        setIsLoading(true);
         const response = await fetch("/api/users/me", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          signal: controller.signal,
         });
 
         if (!response.ok) {
           if (response.status === 401) {
             localStorage.removeItem("token");
             navigate("/login");
-            return;
           }
-          throw new Error(`HTTP error! status: ${response.status}`);
+          return;
         }
 
         const data = await response.json();
@@ -41,23 +34,16 @@ export default function ProfilePage() {
           ...data,
           created_at: data.created_at ? new Date(data.created_at) : null,
         });
-        setError("");
       } catch (error) {
-        if (error.name !== "AbortError") {
-          setError(error.message || "Произошла непредвиденная ошибка");
-          console.error("Profile fetch error:", error);
-        }
-      } finally {
-        setIsLoading(false);
+        console.error("Profile fetch error:", error);
       }
     };
 
     fetchProfile();
-    return () => controller.abort();
   }, [navigate]);
 
   const formatDate = (date) => {
-    if (!date || !(date instanceof Date)) return "Нет данных";
+    if (!date || !(date instanceof Date)) return "";
     return date.toLocaleDateString("ru-RU", {
       year: "numeric",
       month: "long",
@@ -71,22 +57,7 @@ export default function ProfilePage() {
     <div className="profile-page">
       <h2 className="profile-title">Мой профиль</h2>
 
-      {isLoading ? (
-        <div className="profile-loading">
-          <div className="spinner"></div>
-          <p>Загрузка данных профиля...</p>
-        </div>
-      ) : error ? (
-        <div className="profile-error">
-          <p>❌ {error}</p>
-          <button
-            className="cta-button secondary"
-            onClick={() => window.location.reload()}
-          >
-            Повторить попытку
-          </button>
-        </div>
-      ) : userData ? (
+      {userData && (
         <div className="profile-content">
           <div className="profile-info-card">
             <div className="info-item">
@@ -111,7 +82,7 @@ export default function ProfilePage() {
             )}
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   );
 }

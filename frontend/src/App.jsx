@@ -25,32 +25,22 @@ const HeroPage = () => (
 
 export default function App() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return Boolean(localStorage.getItem("token"));
+  });
 
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem("token");
-      if (!token) {
-        setIsLoggedIn(false);
-        setIsCheckingAuth(false);
-        return;
-      }
+      if (!token) return;
 
       try {
-        const response = await fetch("/api/users/me", {
+        await fetch("/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        if (response.ok) {
-          setIsLoggedIn(true);
-        } else {
-          localStorage.removeItem("token");
-        }
-      } catch (error) {
-        console.error("Auth check failed:", error);
-      } finally {
-        setIsCheckingAuth(false);
+      } catch {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
       }
     };
 
@@ -62,10 +52,6 @@ export default function App() {
     setIsLoggedIn(false);
     navigate("/");
   };
-
-  if (isCheckingAuth) {
-    return <div className="loading-screen">Загрузка...</div>;
-  }
 
   return (
     <div className="app">
