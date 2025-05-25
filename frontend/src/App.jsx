@@ -42,7 +42,6 @@ export default function App() {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     navigate("/");
-    window.location.reload();
   };
 
   return (
@@ -55,7 +54,12 @@ export default function App() {
         </div>
 
         {isLoggedIn ? (
-          <DropdownMenu onLogout={handleLogout} />
+          <div className="nav-group">
+            <Link to="/profile" className="nav-link">
+              Профиль
+            </Link>
+            <DropdownMenu onLogout={handleLogout} />
+          </div>
         ) : (
           <button
             className="cta-button secondary"
