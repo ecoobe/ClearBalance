@@ -77,12 +77,12 @@ export default function ProfilePage() {
         <div className="profile-content">
           <div className="profile-info-card">
             <div className="info-item">
-              <span className="info-label">Email:</span>
+              <span className="info-label">Email: </span>
               <span className="info-value">{userData.email}</span>
             </div>
 
             <div className="info-item">
-              <span className="info-label">Дата регистрации:</span>
+              <span className="info-label">Дата регистрации: </span>
               <span className="info-value">
                 {formatDate(userData.created_at)}
               </span>

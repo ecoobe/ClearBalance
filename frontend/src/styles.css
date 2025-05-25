@@ -62,7 +62,7 @@ body {
 .nav-group {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .nav-link {
@@ -72,25 +72,14 @@ body {
   transition: color 0.2s ease;
   font-size: 0.95rem;
   position: relative;
-}
-
-.nav-link:hover {
-  color: var(--primary);
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--primary);
+  padding: 8px 12px;
+  border-radius: 6px;
   transition: var(--transition);
 }
 
-.nav-link:hover::after {
-  width: 100%;
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--primary);
 }
 
 /* Выпадающее меню */
@@ -269,11 +258,25 @@ body {
   box-shadow: none !important;
 }
 
-/* Profile page error handling */
-.profile-error {
-  text-align: center;
+/* Страницы-заглушки */
+.stub-page {
+  max-width: 800px;
+  margin: 4rem auto;
   padding: 2rem;
-  color: #ff6b6b;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.stub-page h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.stub-page p {
+  font-size: 1.2rem;
+  color: #848d97;
 }
 
 /* Формы */

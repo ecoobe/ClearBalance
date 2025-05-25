@@ -6,6 +6,7 @@ import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ProfilePage from "./ProfilePage";
 import DropdownMenu from "./components/DropdownMenu";
+import StubPage from "./components/StubPage";
 
 const HeroPage = () => (
   <main className="hero">
@@ -62,16 +63,32 @@ export default function App() {
           </Link>
         </div>
 
-        {isLoggedIn ? (
-          <DropdownMenu onLogout={handleLogout} />
-        ) : (
-          <button
-            className="cta-button secondary"
-            onClick={() => navigate("/login")}
-          >
-            Войти
-          </button>
-        )}
+        <div className="nav-group">
+          {isLoggedIn && (
+            <>
+              <Link to="/products" className="nav-link">
+                Мои продукты
+              </Link>
+              <Link to="/analytics" className="nav-link">
+                Аналитика
+              </Link>
+              <Link to="/about" className="nav-link">
+                О приложении
+              </Link>
+            </>
+          )}
+
+          {isLoggedIn ? (
+            <DropdownMenu onLogout={handleLogout} />
+          ) : (
+            <button
+              className="cta-button secondary"
+              onClick={() => navigate("/login")}
+            >
+              Войти
+            </button>
+          )}
+        </div>
       </nav>
 
       <Routes>
@@ -82,6 +99,9 @@ export default function App() {
         />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/products" element={<StubPage title="Мои продукты" />} />
+        <Route path="/analytics" element={<StubPage title="Аналитика" />} />
+        <Route path="/about" element={<StubPage title="О приложении" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
