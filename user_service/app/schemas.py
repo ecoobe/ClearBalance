@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr, field_validator
+from datetime import datetime
 
 
 class RegistrationStart(BaseModel):
@@ -29,6 +30,7 @@ class RegistrationSetPassword(BaseModel):
 class UserResponse(BaseModel):
     email: EmailStr
     is_verified: bool
+    created_at: str  # Добавлено поле
 
 
 class Token(BaseModel):
