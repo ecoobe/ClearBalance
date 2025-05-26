@@ -50,9 +50,12 @@ export default function App() {
     };
 
     const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-      setIsCollapsed(isMobile);
-      if (!isMobile) setIsMobileMenuOpen(false);
+      if (window.innerWidth <= 768) {
+        setIsCollapsed(true);
+        setIsMobileMenuOpen(false);
+      } else {
+        setIsCollapsed(false);
+      }
     };
 
     checkAuth();
@@ -67,14 +70,12 @@ export default function App() {
     navigate("/");
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
   };
 
-  const handleSidebarHover = (isHovered) => {
-    if (window.innerWidth > 768 && isCollapsed) {
-      setIsCollapsed(!isHovered);
-    }
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -114,7 +115,7 @@ export default function App() {
         <Sidebar
           isCollapsed={isCollapsed}
           isMobileOpen={isMobileMenuOpen}
-          onHover={handleSidebarHover}
+          toggleCollapse={toggleSidebar}
         />
       )}
 

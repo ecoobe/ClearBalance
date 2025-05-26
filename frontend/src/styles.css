@@ -1,4 +1,4 @@
-/* Базовые настройки и сброс стилей */
+/* Базовые настройки */
 :root {
   --bg-dark: #0d1117;
   --primary: #1f6feb;
@@ -10,8 +10,6 @@
   --menu-bg: #161b22;
   --menu-border: rgba(255, 255, 255, 0.05);
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --button-radius: 6px;
-  --button-padding: 0.75rem 1.5rem;
 }
 
 * {
@@ -43,12 +41,6 @@ body {
   z-index: 1000;
 }
 
-.nav-left {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
 .logo-link {
   text-decoration: none;
   display: flex;
@@ -67,69 +59,53 @@ body {
   letter-spacing: -0.5px;
 }
 
-/* Основные стили кнопок */
-.cta-button {
-  display: inline-flex;
+.nav-group {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: var(--button-padding);
-  border-radius: var(--button-radius);
-  border: 1px solid transparent;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-  background: var(--primary);
-  color: white;
+  gap: 1rem;
 }
 
-.cta-button.secondary {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--text);
-}
-
-.cta-button:hover {
-  background: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-.cta-button.secondary:hover {
-  border-color: var(--primary);
-  background: rgba(31, 111, 235, 0.05);
-}
-
-.cta-button:active {
-  transform: translateY(0);
-}
-
-.cta-button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* Иконки-кнопки */
-.icon-button {
+/* Общие стили интерактивных элементов */
+.profile-button,
+.sidebar-item,
+.notification-icon {
   background: none;
   border: 1px solid var(--border);
-  border-radius: 50%;
-  padding: 10px;
+  padding: 8px;
   cursor: pointer;
   transition: var(--transition);
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
 }
 
-.icon-button:hover {
+.profile-button:hover,
+.sidebar-item:hover,
+.notification-icon:hover {
   border-color: var(--primary);
   background: rgba(31, 111, 235, 0.1);
 }
 
-/* Выпадающее меню */
+/* Специфичные стили для круглых иконок */
+.profile-button,
+.notification-icon {
+  border-radius: 50%;
+  padding: 10px;
+}
+
+/* Стили для SVG */
+.profile-button svg,
+.sidebar-item svg,
+.notification-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text);
+  transition: inherit;
+}
+
+/* Выпадающее меню профиля */
 .dropdown-container {
   position: relative;
-  z-index: 1002;
 }
 
 .dropdown-menu {
@@ -139,12 +115,12 @@ body {
   background: var(--menu-bg);
   border: 1px solid var(--menu-border);
   border-radius: 8px;
-  min-width: 200px;
+  min-width: 240px;
   box-shadow: var(--shadow);
   opacity: 0;
   transform: translateY(-10px);
   animation: menuAppear 0.2s ease-out forwards;
-  z-index: 1003;
+  z-index: 1000;
 }
 
 @keyframes menuAppear {
@@ -155,11 +131,15 @@ body {
 }
 
 .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
   padding: 0.75rem 1rem;
   color: var(--text);
   text-decoration: none;
-  display: block;
   font-size: 0.95rem;
+  border-radius: 6px;
   transition: var(--transition);
 }
 
@@ -169,7 +149,12 @@ body {
 
 .dropdown-item.logout {
   color: #ff6b6b;
+  margin-top: 0.25rem;
   border-top: 1px solid var(--menu-border);
+}
+
+.dropdown-item.logout:hover {
+  background: rgba(240, 71, 71, 0.05);
 }
 
 /* Боковая панель */
@@ -181,49 +166,46 @@ body {
   width: 240px;
   background: var(--menu-bg);
   border-right: 1px solid var(--border);
-  padding: 1rem 0;
+  padding: 1.5rem 0;
   overflow-y: auto;
-  z-index: 999;
-  transition: transform 0.3s;
+  z-index: 900;
 }
 
-.sidebar.collapsed {
-  width: 72px;
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 1rem;
 }
 
 .sidebar-item {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem;
+  width: 100%;
+  border: 1px solid transparent;
+  background: none;
   color: var(--text);
   text-decoration: none;
-  border-radius: 6px;
-  margin: 0 0.5rem;
-  transition: var(--transition);
+  border-radius: 8px;
 }
 
-.sidebar-item:hover {
-  background: rgba(255, 255, 255, 0.03);
+.sidebar-item.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
 }
 
-.sidebar-item span {
-  margin-left: 12px;
-  transition: opacity 0.2s;
+.sidebar-item.active svg {
+  stroke: white;
 }
 
-.sidebar.collapsed .sidebar-item span {
-  opacity: 0;
-}
-
-/* Уведомления */
+/* Иконка уведомлений */
 .notification-icon {
   position: relative;
 }
 
 .notification-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: 2px;
+  right: 2px;
   background: var(--primary);
   color: white;
   font-size: 0.7rem;
@@ -241,79 +223,242 @@ body {
   margin-left: 240px;
   padding: 2rem 5%;
   min-height: calc(100vh - 72px);
-  transition: margin-left 0.3s;
 }
 
-.sidebar.collapsed ~ .app-content.with-sidebar {
-  margin-left: 72px;
+.hero {
+  padding: 6rem 5% 4rem;
+  text-align: center;
 }
 
-/* Бургер-меню */
-.burger-menu {
-  display: none;
-  background: none;
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  color: #848d97;
+  font-size: 1.1rem;
+  margin: 1.5rem 0;
+  line-height: 1.6;
+}
+
+/* Кнопки */
+.cta-button {
+  background: var(--gradient);
+  color: white;
   border: none;
-  padding: 8px;
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  position: relative;
-  z-index: 1001;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.burger-menu span {
-  display: block;
+.cta-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.cta-button.secondary {
+  background: none;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.cta-button.secondary:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.cta-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Формы */
+.auth-page {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.auth-page h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+.auth-page input {
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.auth-page input:focus {
+  outline: 1px solid var(--primary);
+  border-color: var(--primary);
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.spinner {
   width: 24px;
-  height: 2px;
-  background: var(--text);
-  margin: 5px 0;
-  transition: 0.3s;
-  transform-origin: center;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
 }
 
-.burger-menu.active span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.burger-menu.active span:nth-child(2) {
-  opacity: 0;
+/* Страницы контента */
+.page {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
 }
 
-.burger-menu.active span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+.profile-page,
+.settings-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
 }
 
-/* Медиа-запросы */
+.profile-page h2,
+.settings-page h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.settings-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.settings-section {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.settings-section:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.settings-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.security-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.settings-section button {
+  width: fit-content;
+  padding: 0.75rem 1.5rem;
+}
+
+/* Адаптивность */
 @media (max-width: 768px) {
   .navbar {
-    padding: 1rem;
+    padding: 1rem 5%;
+    height: 64px;
   }
 
-  .burger-menu {
-    display: block;
+  .logo-gradient {
+    font-size: 1.5rem;
+  }
+
+  .profile-button,
+  .sidebar-item,
+  .notification-icon {
+    padding: 6px;
+  }
+
+  .profile-button svg,
+  .sidebar-item svg,
+  .notification-icon svg {
+    width: 20px;
+    height: 20px;
   }
 
   .sidebar {
-    transform: translateX(-100%);
-    width: 240px !important;
-  }
-
-  .sidebar.mobile-open {
-    transform: translateX(0);
+    width: 200px;
+    top: 64px;
   }
 
   .app-content.with-sidebar {
-    margin-left: 0 !important;
+    margin-left: 200px;
     padding: 1.5rem;
   }
 
-  .cta-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
+  .hero {
+    padding: 4rem 5% 2rem;
+  }
+
+  .gradient-text {
+    font-size: 2.2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .logo-gradient {
-    font-size: 1.5rem;
+  .sidebar {
+    width: 180px;
+  }
+
+  .app-content.with-sidebar {
+    margin-left: 180px;
+    padding: 1rem;
+  }
+
+  .gradient-text {
+    font-size: 1.8rem;
   }
 
   .notification-badge {
@@ -321,27 +466,4 @@ body {
     min-width: 16px;
     height: 16px;
   }
-}
-
-/* Дополнительные компоненты */
-.auth-page {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-.auth-error {
-  color: #ff6b6b;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-  background: rgba(255, 107, 107, 0.05);
-}
-
-.profile-page {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
 }

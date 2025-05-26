@@ -5,36 +5,42 @@ import { ReactComponent as ProductsIcon } from "./icons/box.svg";
 import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
 import { ReactComponent as SupportIcon } from "./icons/support.svg";
 import { ReactComponent as InfoIcon } from "./icons/info.svg";
+import { ReactComponent as CollapseIcon } from "./icons/chevron-left.svg";
+import { ReactComponent as ExpandIcon } from "./icons/chevron-right.svg";
 
-export default function Sidebar({ isCollapsed, isMobileOpen, onHover }) {
+export default function Sidebar({ isCollapsed, isMobileOpen, toggleCollapse }) {
   return (
     <nav
       className={`sidebar 
         ${isCollapsed ? "collapsed" : ""} 
         ${isMobileOpen ? "mobile-open" : ""}`}
-      onMouseEnter={() => onHover(true)}
-      onMouseLeave={() => onHover(false)}
     >
+      <div className="sidebar-header">
+        <button className="collapse-btn" onClick={toggleCollapse}>
+          {isCollapsed ? <ExpandIcon /> : <CollapseIcon />}
+        </button>
+      </div>
+
       <div className="sidebar-menu">
         <Link to="/" className="sidebar-item">
           <HomeIcon className="sidebar-icon" />
-          <span>Главная</span>
+          {!isCollapsed && <span>Главная</span>}
         </Link>
         <Link to="/products" className="sidebar-item">
           <ProductsIcon className="sidebar-icon" />
-          <span>Мои продукты</span>
+          {!isCollapsed && <span>Мои продукты</span>}
         </Link>
         <Link to="/analytics" className="sidebar-item">
           <AnalyticsIcon className="sidebar-icon" />
-          <span>Аналитика</span>
+          {!isCollapsed && <span>Аналитика</span>}
         </Link>
         <Link to="/support" className="sidebar-item">
           <SupportIcon className="sidebar-icon" />
-          <span>Поддержка</span>
+          {!isCollapsed && <span>Поддержка</span>}
         </Link>
         <Link to="/about" className="sidebar-item">
           <InfoIcon className="sidebar-icon" />
-          <span>О проекте</span>
+          {!isCollapsed && <span>О проекте</span>}
         </Link>
       </div>
     </nav>
