@@ -65,47 +65,69 @@ body {
   gap: 1rem;
 }
 
-/* Общие стили интерактивных элементов */
-.profile-button,
-.sidebar-item,
-.notification-icon {
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  font-size: 0.95rem;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: var(--transition);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Выпадающее меню */
+.dropdown-container {
+  position: relative;
+}
+
+.profile-button {
   background: none;
   border: 1px solid var(--border);
+  border-radius: 50%;
   padding: 8px;
   cursor: pointer;
   transition: var(--transition);
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.profile-button:hover,
-.sidebar-item:hover,
-.notification-icon:hover {
+.profile-button:hover {
   border-color: var(--primary);
   background: rgba(31, 111, 235, 0.1);
 }
 
-/* Специфичные стили для круглых иконок */
-.profile-button,
-.notification-icon {
-  border-radius: 50%;
-  padding: 10px;
+.profile-button.active {
+  background: var(--primary);
+  border-color: transparent;
 }
 
-/* Стили для SVG */
-.profile-button svg,
-.sidebar-item svg,
-.notification-icon svg {
+.profile-button svg {
   width: 24px;
   height: 24px;
   stroke: var(--text);
-  transition: inherit;
+  transition: stroke 0.2s ease;
 }
 
-/* Выпадающее меню профиля */
-.dropdown-container {
-  position: relative;
+.profile-button.active svg {
+  stroke: #fff;
 }
 
 .dropdown-menu {
@@ -128,6 +150,23 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.user-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 1rem;
+  border-bottom: 1px solid var(--menu-border);
+}
+
+.user-preview span {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.menu-items {
+  padding: 0.5rem;
 }
 
 .dropdown-item {
@@ -157,77 +196,21 @@ body {
   background: rgba(240, 71, 71, 0.05);
 }
 
-/* Боковая панель */
-.sidebar {
-  position: fixed;
-  left: 0;
-  top: 72px;
-  bottom: 0;
-  width: 240px;
-  background: var(--menu-bg);
-  border-right: 1px solid var(--border);
-  padding: 1.5rem 0;
-  overflow-y: auto;
-  z-index: 900;
-}
-
-.sidebar-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0 1rem;
-}
-
-.sidebar-item {
-  width: 100%;
-  border: 1px solid transparent;
-  background: none;
-  color: var(--text);
-  text-decoration: none;
-  border-radius: 8px;
-}
-
-.sidebar-item.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-}
-
-.sidebar-item.active svg {
-  stroke: white;
-}
-
-/* Иконка уведомлений */
-.notification-icon {
-  position: relative;
-}
-
-.notification-badge {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  background: var(--primary);
-  color: white;
-  font-size: 0.7rem;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
+.menu-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 /* Основной контент */
-.app-content.with-sidebar {
-  margin-left: 240px;
-  padding: 2rem 5%;
-  min-height: calc(100vh - 72px);
-}
-
 .hero {
   padding: 6rem 5% 4rem;
   text-align: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .gradient-text {
@@ -340,9 +323,52 @@ body {
   }
 }
 
-/* Страницы контента */
-.page {
-  max-width: 1200px;
+/* Прогресс-индикатор */
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0.2;
+  transition: var(--transition);
+}
+
+.dot.completed {
+  opacity: 1;
+}
+
+.dot.active {
+  opacity: 1;
+  transform: scale(1.2);
+  position: relative;
+}
+
+.dot.active::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Страница профиля */
+.profile-page {
+  max-width: 800px;
   margin: 2rem auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.02);
@@ -350,7 +376,15 @@ body {
   border: 1px solid var(--border);
 }
 
-.profile-page,
+.profile-info p {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 6px;
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+}
+
+/* Страница настроек */
 .settings-page {
   max-width: 800px;
   margin: 2rem auto;
@@ -360,7 +394,6 @@ body {
   border: 1px solid var(--border);
 }
 
-.profile-page h2,
 .settings-page h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
@@ -404,6 +437,106 @@ body {
   padding: 0.75rem 1.5rem;
 }
 
+.section-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--primary);
+}
+
+/* Боковая панель */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 72px;
+  bottom: 0;
+  width: 240px;
+  background: var(--menu-bg);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 0;
+  overflow-y: auto;
+  z-index: 900;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sidebar-item.active {
+  background: var(--primary);
+}
+
+.sidebar-icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+/* Основной контент с учетом сайдбара */
+.app-content.with-sidebar {
+  margin-left: 240px;
+  padding: 2rem 5%;
+  min-height: calc(100vh - 72px);
+}
+
+/* Иконка уведомлений */
+.notification-icon {
+  background: none;
+  border: none;
+  position: relative;
+  padding: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.notification-icon:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ff6b6b;
+  color: white;
+  font-size: 0.75rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* Временные страницы */
+.page {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .navbar {
@@ -415,17 +548,49 @@ body {
     font-size: 1.5rem;
   }
 
-  .profile-button,
-  .sidebar-item,
-  .notification-icon {
-    padding: 6px;
+  .nav-group {
+    gap: 1rem;
   }
 
-  .profile-button svg,
-  .sidebar-item svg,
-  .notification-icon svg {
-    width: 20px;
-    height: 20px;
+  .nav-link {
+    display: none;
+  }
+
+  .hero {
+    padding: 4rem 5% 2rem;
+  }
+
+  .gradient-text {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .dropdown-menu {
+    min-width: 200px;
+    right: -8px;
+  }
+
+  .cta-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .auth-page {
+    margin: 2rem auto;
+    padding: 1.5rem;
+  }
+
+  .profile-page {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .settings-page {
+    margin: 1rem;
+    padding: 1.5rem;
   }
 
   .sidebar {
@@ -438,16 +603,30 @@ body {
     padding: 1.5rem;
   }
 
-  .hero {
-    padding: 4rem 5% 2rem;
-  }
-
-  .gradient-text {
-    font-size: 2.2rem;
+  .sidebar-item {
+    padding: 0.75rem;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
+  .hero {
+    padding: 3rem 5% 1.5rem;
+  }
+
+  .gradient-text {
+    font-size: 1.8rem;
+  }
+
+  .dropdown-menu {
+    min-width: 180px;
+  }
+
+  .settings-page {
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+  }
+
   .sidebar {
     width: 180px;
   }
@@ -457,13 +636,7 @@ body {
     padding: 1rem;
   }
 
-  .gradient-text {
-    font-size: 1.8rem;
-  }
-
-  .notification-badge {
-    font-size: 0.6rem;
-    min-width: 16px;
-    height: 16px;
+  .notification-icon {
+    padding: 6px;
   }
 }
