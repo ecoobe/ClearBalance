@@ -5,6 +5,7 @@ import "./styles.css";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ProfilePage from "./ProfilePage";
+import SettingsPage from "./SettingsPage";
 import DropdownMenu from "./components/DropdownMenu";
 
 const HeroPage = () => (
@@ -82,6 +83,7 @@ export default function App() {
         />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
