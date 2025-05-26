@@ -31,6 +31,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -47,7 +49,19 @@ export default function App() {
       }
     };
 
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsCollapsed(true);
+        setIsMobileMenuOpen(false);
+      } else {
+        setIsCollapsed(false);
+      }
+    };
+
     checkAuth();
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleLogout = () => {
@@ -56,13 +70,30 @@ export default function App() {
     navigate("/");
   };
 
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="app">
       <nav className="navbar">
-        <div className="logo">
-          <Link to="/" className="logo-link">
-            <span className="logo-gradient">coobe</span>
-          </Link>
+        <div className="nav-left">
+          {isLoggedIn && (
+            <button className="burger-menu" onClick={toggleMobileMenu}>
+              <span className={isMobileMenuOpen ? "open" : ""}></span>
+              <span className={isMobileMenuOpen ? "open" : ""}></span>
+              <span className={isMobileMenuOpen ? "open" : ""}></span>
+            </button>
+          )}
+          <div className="logo">
+            <Link to="/" className="logo-link">
+              <span className="logo-gradient">coobe</span>
+            </Link>
+          </div>
         </div>
 
         {isLoggedIn ? (
@@ -80,7 +111,14 @@ export default function App() {
         )}
       </nav>
 
-      {isLoggedIn && <Sidebar />}
+      {isLoggedIn && (
+        <Sidebar
+          isCollapsed={isCollapsed}
+          isMobileOpen={isMobileMenuOpen}
+          toggleCollapse={toggleSidebar}
+        />
+      )}
+
       <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>
         <Routes>
           <Route path="/" element={<HeroPage />} />
