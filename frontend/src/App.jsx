@@ -81,10 +81,7 @@ export default function App() {
           element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
         />
         <Route path="/register" element={<RegisterPage />} />
-        <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/settings" element={<SettingsPage />} />
-        </Route>
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
