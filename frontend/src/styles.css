@@ -65,7 +65,7 @@ body {
   gap: 1rem;
 }
 
-/* Общие стили интерактивных элементов */
+/* Иконки и кнопки */
 .profile-button,
 .sidebar-item,
 .notification-icon {
@@ -86,14 +86,12 @@ body {
   background: rgba(31, 111, 235, 0.1);
 }
 
-/* Специфичные стили для круглых иконок */
 .profile-button,
 .notification-icon {
   border-radius: 50%;
   padding: 10px;
 }
 
-/* Стили для SVG */
 .profile-button svg,
 .sidebar-item svg,
 .notification-icon svg {
@@ -103,7 +101,7 @@ body {
   transition: inherit;
 }
 
-/* Выпадающее меню профиля */
+/* Выпадающее меню */
 .dropdown-container {
   position: relative;
 }
@@ -153,10 +151,6 @@ body {
   border-top: 1px solid var(--menu-border);
 }
 
-.dropdown-item.logout:hover {
-  background: rgba(240, 71, 71, 0.05);
-}
-
 /* Боковая панель */
 .sidebar {
   position: fixed;
@@ -169,6 +163,29 @@ body {
   padding: 1.5rem 0;
   overflow-y: auto;
   z-index: 900;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 72px;
+}
+
+.sidebar.mobile-open {
+  transform: translateX(0);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-header {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+.collapse-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--text);
 }
 
 .sidebar-menu {
@@ -185,6 +202,7 @@ body {
   color: var(--text);
   text-decoration: none;
   border-radius: 8px;
+  white-space: nowrap;
 }
 
 .sidebar-item.active {
@@ -197,25 +215,32 @@ body {
   stroke: white;
 }
 
-/* Иконка уведомлений */
-.notification-icon {
-  position: relative;
+/* Прогресс-точки */
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 2rem 0;
 }
 
-.notification-badge {
-  position: absolute;
-  top: 2px;
-  right: 2px;
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.dot.active {
   background: var(--primary);
-  color: white;
-  font-size: 0.7rem;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
+  border-color: var(--primary);
+  transform: scale(1.2);
+}
+
+.dot.completed {
+  background: rgba(31, 111, 235, 0.3);
+  border-color: var(--primary);
 }
 
 /* Основной контент */
@@ -223,6 +248,7 @@ body {
   margin-left: 240px;
   padding: 2rem 5%;
   min-height: calc(100vh - 72px);
+  transition: margin 0.3s ease;
 }
 
 .hero {
@@ -247,7 +273,148 @@ body {
   line-height: 1.6;
 }
 
-/* Кнопки */
+/* Формы аутентификации */
+.auth-page {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-page h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+.auth-page input {
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s;
+  margin: 0.5rem 0;
+}
+
+.auth-page input:focus {
+  outline: 1px solid var(--primary);
+  border-color: var(--primary);
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.info-text {
+  color: #848d97;
+  font-size: 0.9rem;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+/* Анимации */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 5%;
+    height: 64px;
+  }
+
+  .sidebar {
+    width: 280px;
+    transform: translateX(-100%);
+    top: 64px;
+    z-index: 1001;
+    background: var(--bg-dark);
+  }
+
+  .app-content.with-sidebar {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+
+  .burger-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-right: 1rem;
+  }
+
+  .burger-menu span {
+    width: 24px;
+    height: 2px;
+    background: var(--text);
+    transition: var(--transition);
+  }
+
+  .burger-menu span.open {
+    background: var(--primary);
+  }
+
+  .gradient-text {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-page {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .gradient-text {
+    font-size: 2rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    padding: 0.8rem;
+  }
+
+  .notification-badge {
+    font-size: 0.6rem;
+    min-width: 16px;
+    height: 16px;
+  }
+}
+
+/* Дополнительные компоненты */
 .cta-button {
   background: var(--gradient);
   color: white;
@@ -286,60 +453,6 @@ body {
   box-shadow: none !important;
 }
 
-/* Формы */
-.auth-page {
-  max-width: 400px;
-  margin: 4rem auto;
-  padding: 2rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.auth-page h2 {
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-size: 1.8rem;
-}
-
-.auth-page input {
-  padding: 0.8rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-size: 1rem;
-  width: 100%;
-  transition: border-color 0.2s;
-}
-
-.auth-page input:focus {
-  outline: 1px solid var(--primary);
-  border-color: var(--primary);
-}
-
-.button-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  margin-top: 1.5rem;
-}
-
-.spinner {
-  width: 24px;
-  height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* Страницы контента */
 .page {
   max-width: 1200px;
@@ -365,105 +478,4 @@ body {
   font-size: 2rem;
   margin-bottom: 2rem;
   text-align: center;
-}
-
-.settings-content {
-  display: grid;
-  gap: 2rem;
-}
-
-.settings-section {
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  transition: var(--transition);
-}
-
-.settings-section:hover {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.settings-section h3 {
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.security-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.settings-section button {
-  width: fit-content;
-  padding: 0.75rem 1.5rem;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 1rem 5%;
-    height: 64px;
-  }
-
-  .logo-gradient {
-    font-size: 1.5rem;
-  }
-
-  .profile-button,
-  .sidebar-item,
-  .notification-icon {
-    padding: 6px;
-  }
-
-  .profile-button svg,
-  .sidebar-item svg,
-  .notification-icon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .sidebar {
-    width: 200px;
-    top: 64px;
-  }
-
-  .app-content.with-sidebar {
-    margin-left: 200px;
-    padding: 1.5rem;
-  }
-
-  .hero {
-    padding: 4rem 5% 2rem;
-  }
-
-  .gradient-text {
-    font-size: 2.2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .sidebar {
-    width: 180px;
-  }
-
-  .app-content.with-sidebar {
-    margin-left: 180px;
-    padding: 1rem;
-  }
-
-  .gradient-text {
-    font-size: 1.8rem;
-  }
-
-  .notification-badge {
-    font-size: 0.6rem;
-    min-width: 16px;
-    height: 16px;
-  }
 }
