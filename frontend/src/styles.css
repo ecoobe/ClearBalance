@@ -62,7 +62,7 @@ body {
 .nav-group {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .nav-link {
@@ -443,6 +443,100 @@ body {
   stroke: var(--primary);
 }
 
+/* Боковая панель */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 72px;
+  bottom: 0;
+  width: 240px;
+  background: var(--menu-bg);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 0;
+  overflow-y: auto;
+  z-index: 900;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0 1rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sidebar-item.active {
+  background: var(--primary);
+}
+
+.sidebar-icon {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+}
+
+/* Основной контент с учетом сайдбара */
+.app-content.with-sidebar {
+  margin-left: 240px;
+  padding: 2rem 5%;
+  min-height: calc(100vh - 72px);
+}
+
+/* Иконка уведомлений */
+.notification-icon {
+  background: none;
+  border: none;
+  position: relative;
+  padding: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.notification-icon:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ff6b6b;
+  color: white;
+  font-size: 0.75rem;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* Временные страницы */
+.page {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .navbar {
@@ -499,12 +593,19 @@ body {
     padding: 1.5rem;
   }
 
-  .settings-page h2 {
-    font-size: 1.75rem;
+  .sidebar {
+    width: 200px;
+    top: 64px;
   }
 
-  .settings-section {
-    padding: 1rem;
+  .app-content.with-sidebar {
+    margin-left: 200px;
+    padding: 1.5rem;
+  }
+
+  .sidebar-item {
+    padding: 0.75rem;
+    font-size: 0.9rem;
   }
 }
 
@@ -526,16 +627,16 @@ body {
     padding: 1rem;
   }
 
-  .settings-page h2 {
-    font-size: 1.5rem;
+  .sidebar {
+    width: 180px;
   }
 
-  .settings-section button {
-    width: 100%;
+  .app-content.with-sidebar {
+    margin-left: 180px;
+    padding: 1rem;
   }
 
-  .section-icon {
-    width: 20px;
-    height: 20px;
+  .notification-icon {
+    padding: 6px;
   }
 }

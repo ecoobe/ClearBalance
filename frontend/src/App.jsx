@@ -7,6 +7,8 @@ import RegisterPage from "./RegisterPage";
 import ProfilePage from "./ProfilePage";
 import SettingsPage from "./SettingsPage";
 import DropdownMenu from "./components/DropdownMenu";
+import Sidebar from "./Sidebar";
+import NotificationIcon from "./NotificationIcon";
 
 const HeroPage = () => (
   <main className="hero">
@@ -64,7 +66,10 @@ export default function App() {
         </div>
 
         {isLoggedIn ? (
-          <DropdownMenu onLogout={handleLogout} />
+          <div className="nav-group">
+            <NotificationIcon count={3} />
+            <DropdownMenu onLogout={handleLogout} />
+          </div>
         ) : (
           <button
             className="cta-button secondary"
@@ -75,17 +80,36 @@ export default function App() {
         )}
       </nav>
 
-      <Routes>
-        <Route path="/" element={<HeroPage />} />
-        <Route
-          path="/login"
-          element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
-        />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+      {isLoggedIn && <Sidebar />}
+      <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>
+        <Routes>
+          <Route path="/" element={<HeroPage />} />
+          <Route
+            path="/login"
+            element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+          />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route
+            path="/products"
+            element={<div className="page">Мои продукты</div>}
+          />
+          <Route
+            path="/analytics"
+            element={<div className="page">Аналитика</div>}
+          />
+          <Route
+            path="/support"
+            element={<div className="page">Поддержка</div>}
+          />
+          <Route
+            path="/about"
+            element={<div className="page">О проекте</div>}
+          />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
     </div>
   );
 }
