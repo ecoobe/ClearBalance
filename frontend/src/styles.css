@@ -269,13 +269,6 @@ body {
   box-shadow: none !important;
 }
 
-/* Profile page error handling */
-.profile-error {
-  text-align: center;
-  padding: 2rem;
-  color: #ff6b6b;
-}
-
 /* Формы */
 .auth-page {
   max-width: 400px;
@@ -391,6 +384,65 @@ body {
   border: 1px solid var(--border);
 }
 
+/* Страница настроек */
+.settings-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.settings-page h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.settings-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.settings-section {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.settings-section:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.settings-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.security-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.settings-section button {
+  width: fit-content;
+  padding: 0.75rem 1.5rem;
+}
+
+.section-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--primary);
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
   .navbar {
@@ -441,6 +493,19 @@ body {
     margin: 1rem;
     padding: 1.5rem;
   }
+
+  .settings-page {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .settings-page h2 {
+    font-size: 1.75rem;
+  }
+
+  .settings-section {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -454,5 +519,23 @@ body {
 
   .dropdown-menu {
     min-width: 180px;
+  }
+
+  .settings-page {
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+  }
+
+  .settings-page h2 {
+    font-size: 1.5rem;
+  }
+
+  .settings-section button {
+    width: 100%;
+  }
+
+  .section-icon {
+    width: 20px;
+    height: 20px;
   }
 }
