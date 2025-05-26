@@ -62,7 +62,7 @@ body {
 .nav-group {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .nav-link {
@@ -473,60 +473,51 @@ body {
   text-decoration: none;
   border-radius: 6px;
   transition: var(--transition);
-  border: 1px solid transparent;
-  background: none;
 }
 
 .sidebar-item:hover {
   background: rgba(255, 255, 255, 0.03);
-  border-color: var(--border);
 }
 
 .sidebar-item.active {
   background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-}
-
-.sidebar-item.active svg {
-  stroke: white;
 }
 
 .sidebar-icon {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   stroke: currentColor;
+}
+
+/* Основной контент с учетом сайдбара */
+.app-content.with-sidebar {
+  margin-left: 240px;
+  padding: 2rem 5%;
+  min-height: calc(100vh - 72px);
 }
 
 /* Иконка уведомлений */
 .notification-icon {
-  position: relative;
   background: none;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  padding: 10px;
+  border: none;
+  position: relative;
+  padding: 8px;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .notification-icon:hover {
-  border-color: var(--primary);
-  background: rgba(31, 111, 235, 0.1);
-}
-
-.notification-icon svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
 }
 
 .notification-badge {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  background: var(--primary);
+  top: -2px;
+  right: -2px;
+  background: #ff6b6b;
   color: white;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   min-width: 18px;
   height: 18px;
   border-radius: 9px;
@@ -616,15 +607,6 @@ body {
     padding: 0.75rem;
     font-size: 0.9rem;
   }
-
-  .notification-icon {
-    padding: 8px;
-  }
-
-  .notification-icon svg {
-    width: 20px;
-    height: 20px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -654,14 +636,7 @@ body {
     padding: 1rem;
   }
 
-  .notification-badge {
-    font-size: 0.6rem;
-    min-width: 16px;
-    height: 16px;
-  }
-
-  .sidebar-icon {
-    width: 20px;
-    height: 20px;
+  .notification-icon {
+    padding: 6px;
   }
 }
