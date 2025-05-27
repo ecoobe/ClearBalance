@@ -28,11 +28,9 @@ const HeroPage = () => (
 
 export default function App() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(() =>
-    Boolean(localStorage.getItem("token"))
-  );
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return Boolean(localStorage.getItem("token"));
+  });
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -49,16 +47,7 @@ export default function App() {
       }
     };
 
-    const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-      setIsCollapsed(isMobile);
-      if (!isMobile) setIsMobileOpen(false);
-    };
-
     checkAuth();
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleLogout = () => {
@@ -67,24 +56,10 @@ export default function App() {
     navigate("/");
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileOpen(!isMobileOpen);
-  };
-
   return (
     <div className="app">
       <nav className="navbar">
-        <div className="nav-left">
-          {isLoggedIn && (
-            <button
-              className={`burger-menu ${isMobileOpen ? "open" : ""}`}
-              onClick={toggleMobileMenu}
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          )}
+        <div className="logo">
           <Link to="/" className="logo-link">
             <span className="logo-gradient">coobe</span>
           </Link>
@@ -105,10 +80,7 @@ export default function App() {
         )}
       </nav>
 
-      {isLoggedIn && (
-        <Sidebar isCollapsed={isCollapsed} isMobileOpen={isMobileOpen} />
-      )}
-
+      {isLoggedIn && <Sidebar />}
       <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>
         <Routes>
           <Route path="/" element={<HeroPage />} />
