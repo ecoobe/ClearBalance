@@ -28,11 +28,11 @@ const HeroPage = () => (
 
 export default function App() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return Boolean(localStorage.getItem("token"));
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(() =>
+    Boolean(localStorage.getItem("token"))
+  );
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,7 +52,7 @@ export default function App() {
     const handleResize = () => {
       const isMobile = window.innerWidth <= 768;
       setIsCollapsed(isMobile);
-      if (!isMobile) setIsMobileMenuOpen(false);
+      if (!isMobile) setIsMobileOpen(false);
     };
 
     checkAuth();
@@ -68,13 +68,7 @@ export default function App() {
   };
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const handleSidebarHover = (isHovered) => {
-    if (window.innerWidth > 768 && isCollapsed) {
-      setIsCollapsed(!isHovered);
-    }
+    setIsMobileOpen(!isMobileOpen);
   };
 
   return (
@@ -82,17 +76,18 @@ export default function App() {
       <nav className="navbar">
         <div className="nav-left">
           {isLoggedIn && (
-            <button className="burger-menu" onClick={toggleMobileMenu}>
-              <span className={isMobileMenuOpen ? "open" : ""}></span>
-              <span className={isMobileMenuOpen ? "open" : ""}></span>
-              <span className={isMobileMenuOpen ? "open" : ""}></span>
+            <button
+              className={`burger-menu ${isMobileOpen ? "open" : ""}`}
+              onClick={toggleMobileMenu}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
             </button>
           )}
-          <div className="logo">
-            <Link to="/" className="logo-link">
-              <span className="logo-gradient">coobe</span>
-            </Link>
-          </div>
+          <Link to="/" className="logo-link">
+            <span className="logo-gradient">coobe</span>
+          </Link>
         </div>
 
         {isLoggedIn ? (
@@ -111,11 +106,7 @@ export default function App() {
       </nav>
 
       {isLoggedIn && (
-        <Sidebar
-          isCollapsed={isCollapsed}
-          isMobileOpen={isMobileMenuOpen}
-          onHover={handleSidebarHover}
-        />
+        <Sidebar isCollapsed={isCollapsed} isMobileOpen={isMobileOpen} />
       )}
 
       <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>

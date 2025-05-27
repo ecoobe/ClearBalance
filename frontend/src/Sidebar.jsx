@@ -6,14 +6,12 @@ import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
 import { ReactComponent as SupportIcon } from "./icons/support.svg";
 import { ReactComponent as InfoIcon } from "./icons/info.svg";
 
-export default function Sidebar({ isCollapsed, isMobileOpen, onHover }) {
+export default function Sidebar({ isCollapsed, isMobileOpen }) {
   return (
     <nav
       className={`sidebar 
         ${isCollapsed ? "collapsed" : ""} 
         ${isMobileOpen ? "mobile-open" : ""}`}
-      onMouseEnter={() => onHover?.(true)}
-      onMouseLeave={() => onHover?.(false)}
     >
       <div className="sidebar-menu">
         <Link to="/" className="sidebar-item">
