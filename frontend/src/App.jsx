@@ -31,8 +31,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -50,9 +50,9 @@ export default function App() {
     };
 
     const handleResize = () => {
-      const width = window.innerWidth;
-      setWindowWidth(width);
-      if (width > 768) setIsMobileMenuOpen(false);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) setIsSidebarOpen(false);
     };
 
     checkAuth();
@@ -66,8 +66,8 @@ export default function App() {
     navigate("/");
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
@@ -76,8 +76,8 @@ export default function App() {
         <div className="nav-left">
           {isLoggedIn && (
             <button
-              className={`burger-menu ${isMobileMenuOpen ? "open" : ""}`}
-              onClick={toggleMobileMenu}
+              className={`burger-menu ${isSidebarOpen ? "open" : ""}`}
+              onClick={toggleSidebar}
               aria-label="Меню"
             >
               <span className="burger-line top"></span>
@@ -109,15 +109,16 @@ export default function App() {
 
       {isLoggedIn && (
         <Sidebar
-          isOpen={isMobileMenuOpen || windowWidth > 768}
-          onClose={toggleMobileMenu}
+          isOpen={isSidebarOpen}
+          onClose={toggleSidebar}
+          isMobile={isMobile}
         />
       )}
 
       <div
         className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}
         style={{
-          marginLeft: isLoggedIn && windowWidth > 768 ? "240px" : "0",
+          marginLeft: !isMobile && isLoggedIn && isSidebarOpen ? "240px" : "0",
         }}
       >
         <Routes>
