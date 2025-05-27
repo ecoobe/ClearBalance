@@ -31,11 +31,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,7 +49,16 @@ export default function App() {
       }
     };
 
+    const handleResize = () => {
+      const isMobile = window.innerWidth <= 768;
+      setIsCollapsed(isMobile);
+      if (!isMobile) setIsMobileMenuOpen(false);
+    };
+
     checkAuth();
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleLogout = () => {
@@ -61,27 +67,36 @@ export default function App() {
     navigate("/");
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleSidebarHover = (isHovered) => {
+    if (window.innerWidth > 768 && isCollapsed) {
+      setIsCollapsed(!isHovered);
+    }
+  };
+
   return (
     <div className="app">
-      {isLoggedIn && (
-        <button className="sidebar-toggle" onClick={toggleSidebar}>
-          {isSidebarOpen ? (
-            <svg viewBox="0 0 24 24">
-              <path d="M19 12H5M12 5l-7 7 7 7" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          )}
-        </button>
-      )}
-
       <nav className="navbar">
-        <div className="logo">
-          <Link to="/" className="logo-link">
-            <span className="logo-gradient">coobe</span>
-          </Link>
+        <div className="nav-left">
+          {isLoggedIn && (
+            <button
+              className={`burger-menu ${isMobileMenuOpen ? "open" : ""}`}
+              onClick={toggleMobileMenu}
+              aria-label="Меню"
+            >
+              <span className="burger-line"></span>
+              <span className="burger-line"></span>
+              <span className="burger-line"></span>
+            </button>
+          )}
+          <div className="logo">
+            <Link to="/" className="logo-link">
+              <span className="logo-gradient">coobe</span>
+            </Link>
+          </div>
         </div>
 
         {isLoggedIn ? (
@@ -99,13 +114,15 @@ export default function App() {
         )}
       </nav>
 
-      {isLoggedIn && <Sidebar isOpen={isSidebarOpen} />}
-      <div
-        className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}
-        style={{
-          marginLeft: isLoggedIn ? (isSidebarOpen ? "240px" : "72px") : 0,
-        }}
-      >
+      {isLoggedIn && (
+        <Sidebar
+          isCollapsed={isCollapsed}
+          isMobileOpen={isMobileMenuOpen}
+          onHover={handleSidebarHover}
+        />
+      )}
+
+      <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>
         <Routes>
           <Route path="/" element={<HeroPage />} />
           <Route
