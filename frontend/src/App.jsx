@@ -50,8 +50,8 @@ export default function App() {
     };
 
     const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-      setIsCollapsed(isMobile ? false : window.innerWidth > 1024);
+      const isMobile = window.innerWidth <= 1024;
+      setIsCollapsed(!isMobile);
       if (!isMobile) setIsMobileMenuOpen(false);
     };
 
