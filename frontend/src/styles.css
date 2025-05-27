@@ -10,6 +10,11 @@
   --menu-bg: #161b22;
   --menu-border: rgba(255, 255, 255, 0.05);
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --icon-size: 24px;
+  --icon-stroke: 2px;
+  --header-height: 72px;
+  --sidebar-width: 240px;
+  --border-radius: 8px;
 }
 
 * {
@@ -27,6 +32,51 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Общие стили иконок */
+.icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  stroke: currentColor;
+  fill: none;
+  stroke-width: var(--icon-stroke);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.icon-button {
+  padding: 8px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border);
+  transform: translateY(-1px);
+}
+
+.icon-button:active {
+  transform: translateY(1px);
+}
+
+.icon-button.active {
+  background: var(--primary);
+  border-color: transparent;
+}
+
+.icon-button.active .icon {
+  stroke: white;
+}
+
 /* Навбар */
 .navbar {
   display: flex;
@@ -34,7 +84,7 @@ body {
   align-items: center;
   padding: 1rem 5%;
   border-bottom: 1px solid var(--border);
-  height: 72px;
+  height: var(--header-height);
   background: var(--bg-dark);
   position: sticky;
   top: 0;
@@ -65,69 +115,9 @@ body {
   gap: 1rem;
 }
 
-.nav-link {
-  color: var(--text);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s ease;
-  font-size: 0.95rem;
-  position: relative;
-}
-
-.nav-link:hover {
-  color: var(--primary);
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--primary);
-  transition: var(--transition);
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
 /* Выпадающее меню */
 .dropdown-container {
   position: relative;
-}
-
-.profile-button {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  padding: 8px;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-}
-
-.profile-button:hover {
-  border-color: var(--primary);
-  background: rgba(31, 111, 235, 0.1);
-}
-
-.profile-button.active {
-  background: var(--primary);
-  border-color: transparent;
-}
-
-.profile-button svg {
-  width: 24px;
-  height: 24px;
-  stroke: var(--text);
-  transition: stroke 0.2s ease;
-}
-
-.profile-button.active svg {
-  stroke: #fff;
 }
 
 .dropdown-menu {
@@ -136,7 +126,7 @@ body {
   top: calc(100% + 8px);
   background: var(--menu-bg);
   border: 1px solid var(--menu-border);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   min-width: 240px;
   box-shadow: var(--shadow);
   opacity: 0;
@@ -150,23 +140,6 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.user-preview {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 1rem;
-  border-bottom: 1px solid var(--menu-border);
-}
-
-.user-preview span {
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-.menu-items {
-  padding: 0.5rem;
 }
 
 .dropdown-item {
@@ -194,12 +167,6 @@ body {
 
 .dropdown-item.logout:hover {
   background: rgba(240, 71, 71, 0.05);
-}
-
-.menu-icon {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
 }
 
 /* Основной контент */
@@ -237,7 +204,7 @@ body {
   border: none;
   padding: 0.8rem 1.8rem;
   font-size: 1rem;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   cursor: pointer;
   transition: var(--transition);
   display: inline-flex;
@@ -275,7 +242,7 @@ body {
   margin: 4rem auto;
   padding: 2rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -289,7 +256,7 @@ body {
   padding: 0.8rem;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   color: var(--text);
   font-size: 1rem;
   width: 100%;
@@ -372,15 +339,7 @@ body {
   margin: 2rem auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.profile-info p {
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.015);
-  border-radius: 6px;
-  margin: 1rem 0;
+  border-radius: var(--border-radius);
   border: 1px solid var(--border);
 }
 
@@ -390,7 +349,7 @@ body {
   margin: 2rem auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   border: 1px solid var(--border);
 }
 
@@ -409,7 +368,7 @@ body {
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   transition: var(--transition);
 }
 
@@ -417,39 +376,13 @@ body {
   background: rgba(255, 255, 255, 0.02);
 }
 
-.settings-section h3 {
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.security-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.settings-section button {
-  width: fit-content;
-  padding: 0.75rem 1.5rem;
-}
-
-.section-icon {
-  width: 24px;
-  height: 24px;
-  stroke: var(--primary);
-}
-
 /* Боковая панель */
 .sidebar {
   position: fixed;
   left: 0;
-  top: 72px;
+  top: var(--header-height);
   bottom: 0;
-  width: 240px;
+  width: var(--sidebar-width);
   background: var(--menu-bg);
   border-right: 1px solid var(--border);
   padding: 1.5rem 0;
@@ -471,7 +404,7 @@ body {
   padding: 0.75rem 1rem;
   color: var(--text);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   transition: var(--transition);
 }
 
@@ -483,34 +416,18 @@ body {
   background: var(--primary);
 }
 
-.sidebar-icon {
-  width: 20px;
-  height: 20px;
-  stroke: currentColor;
+.sidebar-item.active .icon {
+  stroke: white;
 }
 
-/* Основной контент с учетом сайдбара */
+/* Основной контент с сайдбаром */
 .app-content.with-sidebar {
-  margin-left: 240px;
+  margin-left: var(--sidebar-width);
   padding: 2rem 5%;
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - var(--header-height));
 }
 
-/* Иконка уведомлений */
-.notification-icon {
-  background: none;
-  border: none;
-  position: relative;
-  padding: 8px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.notification-icon:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 50%;
-}
-
+/* Уведомления */
 .notification-badge {
   position: absolute;
   top: -2px;
@@ -527,33 +444,19 @@ body {
   padding: 0 4px;
 }
 
-/* Временные страницы */
-.page {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
 /* Адаптивность */
 @media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+    --sidebar-width: 200px;
+  }
+
   .navbar {
     padding: 1rem 5%;
-    height: 64px;
   }
 
   .logo-gradient {
     font-size: 1.5rem;
-  }
-
-  .nav-group {
-    gap: 1rem;
-  }
-
-  .nav-link {
-    display: none;
   }
 
   .hero {
@@ -578,38 +481,18 @@ body {
     font-size: 0.95rem;
   }
 
-  .auth-page {
-    margin: 2rem auto;
-    padding: 1.5rem;
-  }
-
-  .profile-page {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-
-  .settings-page {
-    margin: 1rem;
-    padding: 1.5rem;
-  }
-
-  .sidebar {
-    width: 200px;
-    top: 64px;
-  }
-
   .app-content.with-sidebar {
-    margin-left: 200px;
+    margin-left: var(--sidebar-width);
     padding: 1.5rem;
-  }
-
-  .sidebar-item {
-    padding: 0.75rem;
-    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
+  :root {
+    --sidebar-width: 180px;
+    --icon-size: 20px;
+  }
+
   .hero {
     padding: 3rem 5% 1.5rem;
   }
@@ -622,21 +505,7 @@ body {
     min-width: 180px;
   }
 
-  .settings-page {
-    margin: 1rem 0.5rem;
-    padding: 1rem;
-  }
-
-  .sidebar {
-    width: 180px;
-  }
-
   .app-content.with-sidebar {
-    margin-left: 180px;
     padding: 1rem;
-  }
-
-  .notification-icon {
-    padding: 6px;
   }
 }
