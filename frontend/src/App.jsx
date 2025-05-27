@@ -31,8 +31,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -50,12 +50,13 @@ export default function App() {
     };
 
     const handleResize = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      if (!mobile) setIsSidebarOpen(false);
+      const isMobile = window.innerWidth <= 768;
+      setIsCollapsed(isMobile);
+      if (!isMobile) setIsMobileMenuOpen(false);
     };
 
     checkAuth();
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -66,8 +67,14 @@ export default function App() {
     navigate("/");
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleSidebarHover = (isHovered) => {
+    if (window.innerWidth > 768 && isCollapsed) {
+      setIsCollapsed(!isHovered);
+    }
   };
 
   return (
@@ -76,13 +83,13 @@ export default function App() {
         <div className="nav-left">
           {isLoggedIn && (
             <button
-              className={`burger-menu ${isSidebarOpen ? "open" : ""}`}
-              onClick={toggleSidebar}
+              className={`burger-menu ${isMobileMenuOpen ? "open" : ""}`}
+              onClick={toggleMobileMenu}
               aria-label="Меню"
             >
-              <span className="burger-line top"></span>
-              <span className="burger-line middle"></span>
-              <span className="burger-line bottom"></span>
+              <span className="burger-line"></span>
+              <span className="burger-line"></span>
+              <span className="burger-line"></span>
             </button>
           )}
           <div className="logo">
@@ -109,18 +116,13 @@ export default function App() {
 
       {isLoggedIn && (
         <Sidebar
-          isOpen={isSidebarOpen}
-          onClose={toggleSidebar}
-          isMobile={isMobile}
+          isCollapsed={isCollapsed}
+          isMobileOpen={isMobileMenuOpen}
+          onHover={handleSidebarHover}
         />
       )}
 
-      <div
-        className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}
-        style={{
-          marginLeft: !isMobile && isLoggedIn && isSidebarOpen ? "240px" : "0",
-        }}
-      >
+      <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>
         <Routes>
           <Route path="/" element={<HeroPage />} />
           <Route

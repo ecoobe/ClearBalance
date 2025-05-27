@@ -49,6 +49,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: all 0.3s ease;
 }
 
 .burger-line {
@@ -61,21 +62,8 @@
   transform-origin: center;
 }
 
-.burger-menu .top {
-  transform: translateY(0);
-}
-
-.burger-menu .middle {
-  opacity: 1;
-  transform: scaleX(1);
-}
-
-.burger-menu .bottom {
-  transform: translateY(0);
-}
-
 .burger-menu.open .top {
-  transform: translateY(10px) rotate(45deg);
+  transform: translateY(9px) rotate(45deg);
 }
 
 .burger-menu.open .middle {
@@ -84,7 +72,7 @@
 }
 
 .burger-menu.open .bottom {
-  transform: translateY(-10px) rotate(-45deg);
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 .nav-group {
