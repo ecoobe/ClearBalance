@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css";
+import "./styles/styles.css";
 
 export default function ProgressDots({ currentStep, totalSteps }) {
   return (

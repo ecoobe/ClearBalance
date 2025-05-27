@@ -1,0 +1,16 @@
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 3rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  color: #848d97;
+  font-size: 1.1rem;
+  margin: 1.5rem 0;
+  line-height: 1.6;
+}
