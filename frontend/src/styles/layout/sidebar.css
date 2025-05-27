@@ -18,10 +18,14 @@
   box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
 }
 
-.sidebar.mobile {
-  width: 100%;
-  top: 64px;
-  z-index: 1001;
+/* Состояние с иконками */
+.sidebar:not(.open) .sidebar-item span {
+  display: none;
+}
+
+.sidebar:not(.open) .sidebar-item {
+  justify-content: center;
+  padding: 0.75rem;
 }
 
 .sidebar-menu {
@@ -75,6 +79,11 @@
 
   .app-content.with-sidebar {
     margin-left: 0 !important;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    width: 280px;
   }
 }
 
