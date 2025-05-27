@@ -31,8 +31,8 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -50,13 +50,12 @@ export default function App() {
     };
 
     const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
-      setIsCollapsed(isMobile);
-      if (!isMobile) setIsMobileMenuOpen(false);
+      const width = window.innerWidth;
+      setWindowWidth(width);
+      if (width > 768) setIsMobileMenuOpen(false);
     };
 
     checkAuth();
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -71,12 +70,6 @@ export default function App() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleSidebarHover = (isHovered) => {
-    if (window.innerWidth > 768 && isCollapsed) {
-      setIsCollapsed(!isHovered);
-    }
-  };
-
   return (
     <div className="app">
       <nav className="navbar">
@@ -87,9 +80,9 @@ export default function App() {
               onClick={toggleMobileMenu}
               aria-label="Меню"
             >
-              <span className="burger-line"></span>
-              <span className="burger-line"></span>
-              <span className="burger-line"></span>
+              <span className="burger-line top"></span>
+              <span className="burger-line middle"></span>
+              <span className="burger-line bottom"></span>
             </button>
           )}
           <div className="logo">
@@ -116,13 +109,17 @@ export default function App() {
 
       {isLoggedIn && (
         <Sidebar
-          isCollapsed={isCollapsed}
-          isMobileOpen={isMobileMenuOpen}
-          onHover={handleSidebarHover}
+          isOpen={isMobileMenuOpen || windowWidth > 768}
+          onClose={toggleMobileMenu}
         />
       )}
 
-      <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>
+      <div
+        className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}
+        style={{
+          marginLeft: isLoggedIn && windowWidth > 768 ? "240px" : "0",
+        }}
+      >
         <Routes>
           <Route path="/" element={<HeroPage />} />
           <Route

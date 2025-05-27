@@ -6,33 +6,27 @@ import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
 import { ReactComponent as SupportIcon } from "./icons/support.svg";
 import { ReactComponent as InfoIcon } from "./icons/info.svg";
 
-export default function Sidebar({ isCollapsed, isMobileOpen, onHover }) {
+export default function Sidebar({ isOpen, onClose }) {
   return (
-    <nav
-      className={`sidebar 
-        ${isCollapsed ? "collapsed" : ""} 
-        ${isMobileOpen ? "mobile-open" : ""}`}
-      onMouseEnter={() => onHover(true)}
-      onMouseLeave={() => onHover(false)}
-    >
+    <nav className={`sidebar ${isOpen ? "open" : ""}`}>
       <div className="sidebar-menu">
-        <Link to="/" className="sidebar-item">
+        <Link to="/" className="sidebar-item" onClick={onClose}>
           <HomeIcon className="sidebar-icon" />
           <span>Главная</span>
         </Link>
-        <Link to="/products" className="sidebar-item">
+        <Link to="/products" className="sidebar-item" onClick={onClose}>
           <ProductsIcon className="sidebar-icon" />
           <span>Мои продукты</span>
         </Link>
-        <Link to="/analytics" className="sidebar-item">
+        <Link to="/analytics" className="sidebar-item" onClick={onClose}>
           <AnalyticsIcon className="sidebar-icon" />
           <span>Аналитика</span>
         </Link>
-        <Link to="/support" className="sidebar-item">
+        <Link to="/support" className="sidebar-item" onClick={onClose}>
           <SupportIcon className="sidebar-icon" />
           <span>Поддержка</span>
         </Link>
-        <Link to="/about" className="sidebar-item">
+        <Link to="/about" className="sidebar-item" onClick={onClose}>
           <InfoIcon className="sidebar-icon" />
           <span>О проекте</span>
         </Link>
