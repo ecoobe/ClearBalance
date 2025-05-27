@@ -1,0 +1,59 @@
+.settings-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.settings-page h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.settings-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.settings-section {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.settings-section:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.settings-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.security-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .settings-page {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}

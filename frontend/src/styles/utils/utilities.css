@@ -1,0 +1,44 @@
+/* Медиа-запросы общего назначения */
+@media (max-width: 480px) {
+  .hero {
+    padding: 3rem 5% 1.5rem;
+  }
+
+  .gradient-text {
+    font-size: 1.8rem;
+  }
+
+  .dropdown-menu {
+    min-width: 180px;
+  }
+
+  .settings-page {
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+  }
+
+  .sidebar {
+    width: 180px;
+  }
+}
+
+/* Утилитарные классы */
+.text-center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}

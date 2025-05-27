@@ -1,0 +1,23 @@
+.profile-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.profile-info p {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 6px;
+  margin: 1rem 0;
+  border: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}

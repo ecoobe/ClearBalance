@@ -1,0 +1,57 @@
+.auth-page input {
+  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.auth-page input:focus {
+  outline: 1px solid var(--primary);
+  border-color: var(--primary);
+}
+
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0.2;
+  transition: var(--transition);
+}
+
+.dot.completed {
+  opacity: 1;
+}
+
+.dot.active {
+  opacity: 1;
+  transform: scale(1.2);
+  position: relative;
+}
+
+.dot.active::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
