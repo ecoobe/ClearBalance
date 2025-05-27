@@ -1,24 +1,39 @@
 .notification-icon {
   background: none;
-  border: none;
-  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 50%;
   padding: 8px;
   cursor: pointer;
   transition: var(--transition);
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 12px; /* Отступ от иконки профиля */
 }
 
 .notification-icon:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 50%;
+  border-color: var(--primary);
+  background: rgba(31, 111, 235, 0.1);
+}
+
+.notification-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text);
+  transition: stroke 0.2s ease;
+}
+
+.notification-icon:hover svg {
+  stroke: var(--primary);
 }
 
 .notification-badge {
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: -4px;
+  right: -4px;
   background: #ff6b6b;
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   min-width: 18px;
   height: 18px;
   border-radius: 9px;
@@ -26,6 +41,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 4px;
+  border: 2px solid var(--menu-bg);
 }
 
 @media (max-width: 480px) {

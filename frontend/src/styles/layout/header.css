@@ -19,10 +19,15 @@
 }
 
 .logo-gradient {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-weight: 700;
   font-size: 1.8rem;
   line-height: 1;
   letter-spacing: -0.5px;
+  padding: 4px; /* Добавим небольшой отступ */
 }
 
 .nav-group {
