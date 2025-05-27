@@ -2,6 +2,36 @@
   position: relative;
 }
 
+.icon-button {
+  position: relative;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.icon-button:hover {
+  border-color: var(--primary);
+  background: rgba(31, 111, 235, 0.1);
+}
+
+.icon-button svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text);
+  transition: stroke 0.2s ease;
+}
+
+.icon-button:hover svg {
+  stroke: var(--primary);
+}
+
 .profile-button {
   background: none;
   border: 1px solid var(--border);
