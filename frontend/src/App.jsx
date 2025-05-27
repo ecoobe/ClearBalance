@@ -31,7 +31,6 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -51,7 +50,6 @@ export default function App() {
 
     const handleResize = () => {
       const isMobile = window.innerWidth <= 768;
-      setIsCollapsed(isMobile);
       if (!isMobile) setIsMobileMenuOpen(false);
     };
 
@@ -69,12 +67,6 @@ export default function App() {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const handleSidebarHover = (isHovered) => {
-    if (window.innerWidth > 768 && isCollapsed) {
-      setIsCollapsed(!isHovered);
-    }
   };
 
   return (
@@ -116,9 +108,8 @@ export default function App() {
 
       {isLoggedIn && (
         <Sidebar
-          isCollapsed={isCollapsed}
           isMobileOpen={isMobileMenuOpen}
-          onHover={handleSidebarHover}
+          onClose={() => setIsMobileMenuOpen(false)}
         />
       )}
 
