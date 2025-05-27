@@ -32,6 +32,7 @@ export default function App() {
     return Boolean(localStorage.getItem("token"));
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -50,6 +51,7 @@ export default function App() {
 
     const handleResize = () => {
       const isMobile = window.innerWidth <= 768;
+      setIsCollapsed(isMobile ? false : window.innerWidth > 1024);
       if (!isMobile) setIsMobileMenuOpen(false);
     };
 
@@ -69,6 +71,12 @@ export default function App() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleSidebarHover = (isHovered) => {
+    if (window.innerWidth > 1024) {
+      setIsCollapsed(!isHovered);
+    }
+  };
+
   return (
     <div className="app">
       <nav className="navbar">
@@ -79,9 +87,9 @@ export default function App() {
               onClick={toggleMobileMenu}
               aria-label="Меню"
             >
-              <span className="burger-line"></span>
-              <span className="burger-line"></span>
-              <span className="burger-line"></span>
+              <span className="burger-line top"></span>
+              <span className="burger-line middle"></span>
+              <span className="burger-line bottom"></span>
             </button>
           )}
           <div className="logo">
@@ -109,7 +117,9 @@ export default function App() {
       {isLoggedIn && (
         <Sidebar
           isMobileOpen={isMobileMenuOpen}
+          isCollapsed={isCollapsed}
           onClose={() => setIsMobileMenuOpen(false)}
+          onHover={handleSidebarHover}
         />
       )}
 

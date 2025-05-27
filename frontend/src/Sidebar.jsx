@@ -6,29 +6,40 @@ import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
 import { ReactComponent as SupportIcon } from "./icons/support.svg";
 import { ReactComponent as InfoIcon } from "./icons/info.svg";
 
-export default function Sidebar({ isMobileOpen, onClose }) {
+export default function Sidebar({
+  isMobileOpen,
+  isCollapsed,
+  onClose,
+  onHover,
+}) {
   return (
-    <nav className={`sidebar ${isMobileOpen ? "open" : ""}`}>
+    <nav
+      className={`sidebar ${isMobileOpen ? "open" : ""} ${
+        isCollapsed ? "collapsed" : ""
+      }`}
+      onMouseEnter={() => onHover(false)}
+      onMouseLeave={() => onHover(true)}
+    >
       <div className="sidebar-menu">
         <Link to="/" className="sidebar-item" onClick={onClose}>
           <HomeIcon className="sidebar-icon" />
-          <span>Главная</span>
+          <span className="sidebar-text">Главная</span>
         </Link>
         <Link to="/products" className="sidebar-item" onClick={onClose}>
           <ProductsIcon className="sidebar-icon" />
-          <span>Мои продукты</span>
+          <span className="sidebar-text">Мои продукты</span>
         </Link>
         <Link to="/analytics" className="sidebar-item" onClick={onClose}>
           <AnalyticsIcon className="sidebar-icon" />
-          <span>Аналитика</span>
+          <span className="sidebar-text">Аналитика</span>
         </Link>
         <Link to="/support" className="sidebar-item" onClick={onClose}>
           <SupportIcon className="sidebar-icon" />
-          <span>Поддержка</span>
+          <span className="sidebar-text">Поддержка</span>
         </Link>
         <Link to="/about" className="sidebar-item" onClick={onClose}>
           <InfoIcon className="sidebar-icon" />
-          <span>О проекте</span>
+          <span className="sidebar-text">О проекте</span>
         </Link>
       </div>
     </nav>
