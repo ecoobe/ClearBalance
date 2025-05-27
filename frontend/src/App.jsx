@@ -31,6 +31,11 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return Boolean(localStorage.getItem("token"));
   });
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -58,6 +63,20 @@ export default function App() {
 
   return (
     <div className="app">
+      {isLoggedIn && (
+        <button className="sidebar-toggle" onClick={toggleSidebar}>
+          {isSidebarOpen ? (
+            <svg viewBox="0 0 24 24">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          )}
+        </button>
+      )}
+
       <nav className="navbar">
         <div className="logo">
           <Link to="/" className="logo-link">
@@ -80,8 +99,13 @@ export default function App() {
         )}
       </nav>
 
-      {isLoggedIn && <Sidebar />}
-      <div className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}>
+      {isLoggedIn && <Sidebar isOpen={isSidebarOpen} />}
+      <div
+        className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}
+        style={{
+          marginLeft: isLoggedIn ? (isSidebarOpen ? "240px" : "72px") : 0,
+        }}
+      >
         <Routes>
           <Route path="/" element={<HeroPage />} />
           <Route

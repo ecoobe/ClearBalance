@@ -6,9 +6,9 @@ import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
 import { ReactComponent as SupportIcon } from "./icons/support.svg";
 import { ReactComponent as InfoIcon } from "./icons/info.svg";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen }) {
   return (
-    <nav className="sidebar">
+    <nav className={`sidebar ${isOpen ? "" : "collapsed"}`}>
       <div className="sidebar-menu">
         <Link to="/" className="sidebar-item">
           <HomeIcon className="sidebar-icon" />
