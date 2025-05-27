@@ -6,28 +6,34 @@ import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
 import { ReactComponent as SupportIcon } from "./icons/support.svg";
 import { ReactComponent as InfoIcon } from "./icons/info.svg";
 
-export default function Sidebar({ isOpen, isMobile, onClose }) {
+export default function Sidebar({ isOpen, onClose, isMobile }) {
   return (
-    <aside
+    <nav
       className={`sidebar ${isOpen ? "open" : ""} ${isMobile ? "mobile" : ""}`}
-      onClick={(e) => {
-        if (isMobile && e.target.closest("a")) onClose();
-      }}
+      onClick={(e) => isMobile && e.target.tagName === "A" && onClose()}
     >
-      <nav className="sidebar-nav">
-        {[
-          { path: "/", icon: <HomeIcon />, text: "Главная" },
-          { path: "/products", icon: <ProductsIcon />, text: "Мои продукты" },
-          { path: "/analytics", icon: <AnalyticsIcon />, text: "Аналитика" },
-          { path: "/support", icon: <SupportIcon />, text: "Поддержка" },
-          { path: "/about", icon: <InfoIcon />, text: "О проекте" },
-        ].map((item, index) => (
-          <Link key={index} to={item.path} className="nav-item">
-            <span className="nav-icon">{item.icon}</span>
-            <span className="nav-text">{item.text}</span>
-          </Link>
-        ))}
-      </nav>
-    </aside>
+      <div className="sidebar-menu">
+        <Link to="/" className="sidebar-item">
+          <HomeIcon className="sidebar-icon" />
+          <span>Главная</span>
+        </Link>
+        <Link to="/products" className="sidebar-item">
+          <ProductsIcon className="sidebar-icon" />
+          <span>Мои продукты</span>
+        </Link>
+        <Link to="/analytics" className="sidebar-item">
+          <AnalyticsIcon className="sidebar-icon" />
+          <span>Аналитика</span>
+        </Link>
+        <Link to="/support" className="sidebar-item">
+          <SupportIcon className="sidebar-icon" />
+          <span>Поддержка</span>
+        </Link>
+        <Link to="/about" className="sidebar-item">
+          <InfoIcon className="sidebar-icon" />
+          <span>О проекте</span>
+        </Link>
+      </div>
+    </nav>
   );
 }

@@ -28,9 +28,9 @@ const HeroPage = () => (
 
 export default function App() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(() =>
-    Boolean(localStorage.getItem("token"))
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return Boolean(localStorage.getItem("token"));
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -40,10 +40,9 @@ export default function App() {
       if (!token) return;
 
       try {
-        const response = await fetch("/api/users/me", {
+        await fetch("/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        if (!response.ok) throw new Error();
       } catch {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
@@ -61,8 +60,15 @@ export default function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => setIsSidebarOpen(false);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
     <div className="app">
@@ -70,15 +76,13 @@ export default function App() {
         <div className="nav-left">
           {isLoggedIn && (
             <button
-              className={`burger-btn ${isSidebarOpen ? "active" : ""}`}
+              className={`burger-menu ${isSidebarOpen ? "open" : ""}`}
               onClick={toggleSidebar}
               aria-label="Меню"
             >
-              <div className="burger-lines">
-                <span className="line top"></span>
-                <span className="line mid"></span>
-                <span className="line btm"></span>
-              </div>
+              <span className="burger-line top"></span>
+              <span className="burger-line middle"></span>
+              <span className="burger-line bottom"></span>
             </button>
           )}
           <div className="logo">
@@ -89,15 +93,9 @@ export default function App() {
         </div>
 
         {isLoggedIn ? (
-          <div className="nav-right">
+          <div className="nav-group">
             <NotificationIcon count={3} />
-            <DropdownMenu
-              onLogout={() => {
-                localStorage.removeItem("token");
-                setIsLoggedIn(false);
-                navigate("/");
-              }}
-            />
+            <DropdownMenu onLogout={handleLogout} />
           </div>
         ) : (
           <button
@@ -112,12 +110,17 @@ export default function App() {
       {isLoggedIn && (
         <Sidebar
           isOpen={isSidebarOpen}
+          onClose={toggleSidebar}
           isMobile={isMobile}
-          onClose={closeSidebar}
         />
       )}
 
-      <main className={`main-content ${isLoggedIn ? "with-sidebar" : ""}`}>
+      <div
+        className={`app-content ${isLoggedIn ? "with-sidebar" : ""}`}
+        style={{
+          marginLeft: !isMobile && isLoggedIn && isSidebarOpen ? "240px" : "0",
+        }}
+      >
         <Routes>
           <Route path="/" element={<HeroPage />} />
           <Route
@@ -145,7 +148,7 @@ export default function App() {
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </main>
+      </div>
     </div>
   );
 }

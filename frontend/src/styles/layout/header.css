@@ -37,7 +37,7 @@
   letter-spacing: -0.5px;
 }
 
-/* Исправленная анимация бургер-меню */
+/* Бургер-меню */
 .burger-menu {
   position: relative;
   width: 32px;
@@ -61,16 +61,29 @@
   transform-origin: center;
 }
 
-.burger-menu.open .burger-line:nth-child(1) {
+.burger-menu .top {
+  transform: translateY(0);
+}
+
+.burger-menu .middle {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.burger-menu .bottom {
+  transform: translateY(0);
+}
+
+.burger-menu.open .top {
   transform: translateY(10px) rotate(45deg);
 }
 
-.burger-menu.open .burger-line:nth-child(2) {
+.burger-menu.open .middle {
   opacity: 0;
   transform: scaleX(0);
 }
 
-.burger-menu.open .burger-line:nth-child(3) {
+.burger-menu.open .bottom {
   transform: translateY(-10px) rotate(-45deg);
 }
 
