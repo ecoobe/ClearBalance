@@ -1,47 +1,43 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { ReactComponent as HomeIcon } from "./icons/home.svg";
-import { ReactComponent as ProductsIcon } from "./icons/box.svg";
-import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
-import { ReactComponent as SupportIcon } from "./icons/support.svg";
-import { ReactComponent as InfoIcon } from "./icons/info.svg";
+import { NavLink } from "react-router-dom";
+import {
+  HomeIcon,
+  ProductsIcon,
+  AnalyticsIcon,
+  SupportIcon,
+  InfoIcon,
+} from "./icons";
+import "./sidebar.css";
 
-export default function Sidebar({
-  isMobileOpen,
-  isCollapsed,
-  onClose,
-  onHover,
-}) {
+const menuItems = [
+  { path: "/", icon: HomeIcon, text: "Главная", end: true },
+  { path: "/products", icon: ProductsIcon, text: "Мои продукты" },
+  { path: "/analytics", icon: AnalyticsIcon, text: "Аналитика" },
+  { path: "/support", icon: SupportIcon, text: "Поддержка" },
+  { path: "/about", icon: InfoIcon, text: "О проекте" },
+];
+
+const Sidebar = ({ isOpen, onClose }) => {
   return (
-    <nav
-      className={`sidebar ${isMobileOpen ? "open" : ""} ${
-        isCollapsed ? "collapsed" : ""
-      }`}
-      onMouseEnter={() => onHover(false)}
-      onMouseLeave={() => onHover(true)}
-    >
-      <div className="sidebar-menu">
-        <Link to="/" className="sidebar-item" onClick={onClose}>
-          <HomeIcon className="sidebar-icon" />
-          <span className="sidebar-text">Главная</span>
-        </Link>
-        <Link to="/products" className="sidebar-item" onClick={onClose}>
-          <ProductsIcon className="sidebar-icon" />
-          <span className="sidebar-text">Мои продукты</span>
-        </Link>
-        <Link to="/analytics" className="sidebar-item" onClick={onClose}>
-          <AnalyticsIcon className="sidebar-icon" />
-          <span className="sidebar-text">Аналитика</span>
-        </Link>
-        <Link to="/support" className="sidebar-item" onClick={onClose}>
-          <SupportIcon className="sidebar-icon" />
-          <span className="sidebar-text">Поддержка</span>
-        </Link>
-        <Link to="/about" className="sidebar-item" onClick={onClose}>
-          <InfoIcon className="sidebar-icon" />
-          <span className="sidebar-text">О проекте</span>
-        </Link>
-      </div>
-    </nav>
+    <aside className={`sidebar ${isOpen ? "sidebar--open" : ""}`}>
+      <nav className="sidebar__nav">
+        {menuItems.map(({ path, icon: Icon, text, end }) => (
+          <NavLink
+            key={path}
+            to={path}
+            end={end}
+            className={({ isActive }) =>
+              `sidebar__link ${isActive ? "sidebar__link--active" : ""}`
+            }
+            onClick={onClose}
+          >
+            <Icon className="sidebar__icon" />
+            <span className="sidebar__text">{text}</span>
+          </NavLink>
+        ))}
+      </nav>
+    </aside>
   );
-}
+};
+
+export default Sidebar;
