@@ -1,46 +1,42 @@
+// Sidebar.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ReactComponent as HomeIcon } from "./icons/home.svg";
 import { ReactComponent as ProductsIcon } from "./icons/box.svg";
 import { ReactComponent as AnalyticsIcon } from "./icons/chart.svg";
 import { ReactComponent as SupportIcon } from "./icons/support.svg";
 import { ReactComponent as InfoIcon } from "./icons/info.svg";
+import classNames from "classnames";
+import "./Sidebar.css";
 
-export default function Sidebar({
-  isMobileOpen,
-  isCollapsed,
-  onClose,
-  onHover,
-}) {
+const menuItems = [
+  { path: "/", icon: HomeIcon, label: "Главная" },
+  { path: "/products", icon: ProductsIcon, label: "Мои продукты" },
+  { path: "/analytics", icon: AnalyticsIcon, label: "Аналитика" },
+  { path: "/support", icon: SupportIcon, label: "Поддержка" },
+  { path: "/about", icon: InfoIcon, label: "О проекте" },
+];
+
+export default function Sidebar({ isOpen, onClose }) {
+  const location = useLocation();
+  const isMobile = window.innerWidth <= 768;
+
   return (
-    <nav
-      className={`sidebar ${isMobileOpen ? "open" : ""} ${
-        isCollapsed ? "collapsed" : ""
-      }`}
-      onMouseEnter={() => onHover(false)}
-      onMouseLeave={() => onHover(true)}
-    >
+    <nav className={classNames("sidebar", { open: isOpen, mobile: isMobile })}>
       <div className="sidebar-menu">
-        <Link to="/" className="sidebar-item" onClick={onClose}>
-          <HomeIcon className="sidebar-icon" />
-          <span className="sidebar-text">Главная</span>
-        </Link>
-        <Link to="/products" className="sidebar-item" onClick={onClose}>
-          <ProductsIcon className="sidebar-icon" />
-          <span className="sidebar-text">Мои продукты</span>
-        </Link>
-        <Link to="/analytics" className="sidebar-item" onClick={onClose}>
-          <AnalyticsIcon className="sidebar-icon" />
-          <span className="sidebar-text">Аналитика</span>
-        </Link>
-        <Link to="/support" className="sidebar-item" onClick={onClose}>
-          <SupportIcon className="sidebar-icon" />
-          <span className="sidebar-text">Поддержка</span>
-        </Link>
-        <Link to="/about" className="sidebar-item" onClick={onClose}>
-          <InfoIcon className="sidebar-icon" />
-          <span className="sidebar-text">О проекте</span>
-        </Link>
+        {menuItems.map(({ path, icon: Icon, label }) => (
+          <Link
+            key={path}
+            to={path}
+            className={classNames("sidebar-item", {
+              active: location.pathname === path,
+            })}
+            onClick={onClose}
+          >
+            <Icon className="sidebar-icon" />
+            <span className="sidebar-text">{label}</span>
+          </Link>
+        ))}
       </div>
     </nav>
   );
